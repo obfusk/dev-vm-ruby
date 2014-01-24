@@ -6,9 +6,28 @@ packages=(
   etckeeper git
   byobu curl grc htop tree vim
   build-essential ruby1.9.1-full
+
+  zlib1g-dev libssl-dev libreadline-gplv2-dev
+  libxml2-dev libxslt1-dev
+
+  postgresql-contrib-9.1 postgresql-server-dev-9.1
+  mongodb
+  libsqlite3-dev sqlite3
+  memcached redis-server
+
+  imagemagick libmagickwand-dev
+  nodejs
+
+  nginx-full gitolite
+
+  debian-goodies
+
   xclip vim-gtk
   chromium-browser firefox
 )
+
+cp id_rsa.pub .ssh/authorized_keys
+passwd -l vagrant
 
 aptitude update
 aptitude -y safe-upgrade
@@ -18,6 +37,10 @@ aptitude install -y "${packages[@]}"
 update-alternatives --set editor  /usr/bin/vim.basic
 update-alternatives --set ruby    /usr/bin/ruby1.9.1
 update-alternatives --set gem     /usr/bin/gem1.9.1
+
+rm -f /etc/nginx/sites-enabled/default
+
+service nginx restart
 
 (
   cd /etc
