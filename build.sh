@@ -23,8 +23,14 @@ if ! vagrant box list | awk '{print $1}' | grep -qxF "$parent"; then
   vagrant box add "$parent" "$box_url"
 fi
 
+export OLD_KEY=yes
+
 vagrant up
-vagrant ssh -c 'cat > id_rsa.pub' < id_rsa.pub
+vagrant ssh -c 'cat > ~/id_rsa.pub' < id_rsa.pub
+vagrant ssh -c 'cp ~/id_rsa.pub ~/.ssh/authorized_keys'
+
+export OLD_KEY=no
+
 vagrant package --output "$box-$( date +%FT%T ).box"
 
 [ "$KEEP" == yes ] || vagrant destroy

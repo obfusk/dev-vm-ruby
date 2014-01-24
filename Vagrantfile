@@ -10,8 +10,14 @@ require 'fileutils'
 shares.each { |k,v| FileUtils.mkdir_p k }
 
 Vagrant::Config.run('2') do |config|
-  config.vm.box = ENV['PARENT_BOX'] == 'yes' ? 'precise64-cloud'
-                                             : 'dev-vm-ruby'
+  if ENV['PARENT_BOX'] == 'yes'
+    config.vm.box = 'precise64-cloud'
+  else
+    config.vm.box = 'dev-vm-ruby'
+  end
+  if ENV['OLD_KEY'] != 'yes'
+    config.ssh.private_key_path = priv_key
+  end
   config.vm.provider 'virtualbox' do |v|
     v.customize ['modifyvm', :id, '--memory', 512]
   end
@@ -22,5 +28,4 @@ Vagrant::Config.run('2') do |config|
   end
   config.ssh.forward_x11 = true
   config.vm.provision :shell, :path => 'provision.sh'
-  config.ssh.private_key_path = priv_key
 end

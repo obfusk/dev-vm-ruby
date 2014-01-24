@@ -26,7 +26,6 @@ packages=(
   chromium-browser firefox
 )
 
-cp id_rsa.pub .ssh/authorized_keys
 passwd -l vagrant
 
 aptitude update
