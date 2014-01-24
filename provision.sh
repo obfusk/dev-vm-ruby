@@ -6,13 +6,22 @@ packages=(
   etckeeper git
   byobu curl grc htop tree vim
   build-essential ruby1.9.1-full
-  xclip
+  xclip vim-gtk
   chromium-browser firefox
 )
 
+aptitude update
+aptitude -y safe-upgrade
+
+aptitude install -y "${packages[@]}"
+
+update-alternatives --set editor  /usr/bin/vim.basic
+update-alternatives --set ruby    /usr/bin/ruby1.9.1
+update-alternatives --set gem     /usr/bin/gem1.9.1
+
 (
   cd /etc
-  if ! test -e .git then
+  if ! test -e .git; then
     sed -ri '/^VCS="bzr"/ s!^!#!; /VCS="git"/ s!^#!!' \
       /etc/etckeeper/etckeeper.conf
     git init
@@ -23,36 +32,30 @@ packages=(
   fi
 )
 
-aptitude update
-aptitude -y safe-upgrade
-
-aptitude install -y -R "${packages[@]}"
-
-update-alternatives --set editor  /usr/bin/vim.basic
-update-alternatives --set ruby    /usr/bin/ruby1.9.1
-update-alternatives --set gem     /usr/bin/gem1.9.1
-
 cat <<__END | sed 's!^  !!' | sudo -H -u vagrant bash -xe
   cd
   mkdir -p bin opt/src
 
   (
     cd opt/src
-    git clone https://github.com/obfusk/sh-config.git
-    git clone https://github.com/obfusk/dev-misc.git
-    git clone https://github.com/obfusk/map.sh.git
+    for x in sh-config dev-misc map.sh; do
+      test -e "\$x" || \
+      git clone https://github.com/obfusk/"$\\x".git
+    end
   )
 
-  ln -s opt/src/dev-misc/vimrc        .vimrc
-  ln -s ../opt/src/map.sh/bin/filter  bin/filter
-  ln -s ../opt/src/map.sh/bin/map     bin/map
+  ln -fs opt/src/dev-misc/vimrc       .vimrc
+  ln -fs ../opt/src/map.sh/bin/filter bin/filter
+  ln -fs ../opt/src/map.sh/bin/map    bin/map
 
+  grep -qF prompt.bash .bashrc || \
   sed 's!^  !!' >> .bashrc <<__END
 
     . ~/opt/src/sh-config/prompt.bash
 
   __END
 
+  grep -qF LC_ALL .profile || \
   sed 's!^  !!' >> .profile <<__END
 
     for _path in \
@@ -65,6 +68,7 @@ cat <<__END | sed 's!^  !!' | sudo -H -u vagrant bash -xe
 
   __END
 
+  grep -qF no-ri .gemrc || \
   sed 's!^  !!' >> .gemrc <<__END
     install: --no-rdoc --no-ri
     update:  --no-rdoc --no-ri

@@ -18,7 +18,7 @@
   3. Download the .zip or `git clone`
   4. Modify the `Vagrantfile` (if needed)
   5. Download a pre-built dev-vm base box or `./build.sh`
-  6. `vagrant box add` the base box
+  6. `vagrant box add dev-vm-ruby /path/to/.box` the base box
   7. `vagrant up`
   8. ???
   9. profit!
