@@ -40,8 +40,8 @@ cat <<__END | sed 's!^  !!' | sudo -H -u vagrant bash -xe
     cd opt/src
     for x in sh-config dev-misc map.sh; do
       test -e "\$x" || \
-      git clone https://github.com/obfusk/"$\\x".git
-    end
+      git clone https://github.com/obfusk/"\$x".git
+    done
   )
 
   ln -fs opt/src/dev-misc/vimrc       .vimrc
@@ -59,12 +59,12 @@ cat <<__END | sed 's!^  !!' | sudo -H -u vagrant bash -xe
   sed 's!^  !!' >> .profile <<__END
 
     for _path in \
-      "\\\$HOME/.gem/ruby/1.9.1/bin" "\\\$HOME/bin" ;
+      "\\\$HOME/.gem/ruby/1.9.1/bin" ;
     do
       [ -d "\\\$_path" ] && PATH="\\\$_path:\\\$PATH"
     done
     unset _path
-    export LC_ALL=C GEM_HOME="\\\$HOME/.gem/ruby/1.9.1"
+    export LC_ALL=C LANG=C GEM_HOME="\\\$HOME/.gem/ruby/1.9.1"
 
   __END
 

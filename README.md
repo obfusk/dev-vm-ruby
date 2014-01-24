@@ -20,8 +20,9 @@
   5. Download a pre-built dev-vm base box or `./build.sh`
   6. `vagrant box add dev-vm-ruby /path/to/.box` the base box
   7. `vagrant up`
-  8. ???
-  9. profit!
+  8. `vagrant ssh -c 'byobu bash'`
+  9. ???
+  10. profit!
 
 #
 
