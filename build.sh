@@ -31,6 +31,7 @@ vagrant ssh -c 'cp ~/id_rsa.pub ~/.ssh/authorized_keys'
 
 export OLD_KEY=no
 
+vagrant ssh -c 'sudo aptitude clean'
 vagrant package --output "$box-$( date +%FT%T ).box"
 
 [ "$KEEP" == yes ] || vagrant destroy
