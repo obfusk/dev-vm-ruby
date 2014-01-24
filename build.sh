@@ -15,7 +15,7 @@ if ! test -e id_rsa; then
     ln -s "$HOME"/id_rsa
     ln -s "$HOME"/id_rsa.pub
   else
-    ssk-keygen -f id_rsa -P ''
+    ssh-keygen -f id_rsa -P ''
   fi
 fi
 
