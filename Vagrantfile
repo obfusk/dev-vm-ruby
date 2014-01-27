@@ -3,7 +3,7 @@ cfg = {
   priv_key: './id_rsa',
   shares:   {
     'shared'                => '/home/vagrant/shared',
-  # "#{Dir.home}/projects'  => '/home/vagrant/projects',
+  # "#{Dir.home}/projects"  => '/home/vagrant/projects',
   },
   custom: ['modifyvm', :id, '--memory', 512],
 }
