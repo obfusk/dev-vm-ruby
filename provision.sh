@@ -26,12 +26,17 @@ packages=(
   chromium-browser firefox
 )
 
+rm_packages=(
+  rpcbind cloud-init
+)
+
 passwd -l vagrant
 
 aptitude update
 aptitude -y safe-upgrade
 
 aptitude install -y "${packages[@]}"
+aptitude purge -y "${rm_packages[@]}"
 
 update-alternatives --set editor  /usr/bin/vim.basic
 update-alternatives --set ruby    /usr/bin/ruby1.9.1

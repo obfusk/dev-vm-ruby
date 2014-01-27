@@ -13,7 +13,8 @@ require 'tmpdir'
 
 cfg[:shares].each { |k,v| FileUtils.mkdir_p k }
 
-box = ENV['PARENT_BOX'] == 'yes' ? 'precise64-cloud' : 'dev-vm-ruby'
+parent  = ENV['PARENT_BOX'] == 'yes'
+box     = parent ? 'precise64-cloud' : 'dev-vm-ruby'
 
 f = -> config {
   config.vm.box = box
@@ -30,7 +31,7 @@ Dir.mktmpdir do |tdir|
     Vagrant::Config.run do |config|
       f[config]
       config.vm.customize cfg[:custom]
-      config.vm.network :hostonly, cfg[:ip]
+      config.vm.network :hostonly, cfg[:ip] unless parent
       config.vm.share_folder 'v-root', '/.vagrant-shared',
         "#{tdir}/.shared", create: true
       cfg[:shares].each do |k,v|
@@ -43,7 +44,7 @@ Dir.mktmpdir do |tdir|
       config.vm.provider :virtualbox do |vb|
         vb.customize cfg[:custom]
       end
-      config.vm.network :private_network, ip: cfg[:ip]
+      config.vm.network :private_network, ip: cfg[:ip] unless parent
       config.vm.synced_folder '.', '/vagrant', disabled: true
       cfg[:shares].each do |k,v|
         config.vm.synced_folder k, v, create: true
