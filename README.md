@@ -35,8 +35,11 @@
 
 ### Usage
 
-  1.  Install [virtualbox](https://www.virtualbox.org)*
-  2.  Install [vagrant](https://www.vagrantup.com)*
+  NB: you should install virtualbox and vagrant via your package
+  manager if possible.
+
+  1.  Install [virtualbox](https://www.virtualbox.org)
+  2.  Install [vagrant](https://www.vagrantup.com)
   3.  Download the .zip or `git clone`
   4.  Modify the `Vagrantfile` (if needed)
   5.  If you don't already have a pre-built dev-vm-ruby base box, run
@@ -46,10 +49,6 @@
   8.  `vagrant ssh -c 'byobu bash'`
   9.  ???
   10. profit!
-
-#
-
-  \* may also be available via your package manager
 
 []: }}}1
 
