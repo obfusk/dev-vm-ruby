@@ -12,8 +12,8 @@ box_url+='precise-server-cloudimg-amd64-vagrant-disk1.box'
 
 if ! test -e id_rsa; then
   if [ "$USE_MY_KEY" == yes ]; then
-    ln -s "$HOME"/id_rsa
-    ln -s "$HOME"/id_rsa.pub
+    ln -s "$HOME"/.ssh/id_rsa
+    ln -s "$HOME"/.ssh/id_rsa.pub
   else
     ssh-keygen -f id_rsa -P ''
   fi
