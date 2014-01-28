@@ -40,8 +40,8 @@ sudo -H -u postgres createdb $DBNAME -O $USERNAME
 ```
 
 ```bash
-host$ pg_dump -h localhost -O $DBNAME > shared/$DBNAME.sql  # dump
-vm$   psql -h localhost -U $USERNAME < shared/$DBNAME.sql   # restore
+host$ pg_dump -h localhost -U $USERNAME -O $DBNAME > shared/$DBNAME.sql   # dump
+vm$   psql    -h localhost -U $USERNAME    $DBNAME < shared/$DBNAME.sql   # restore
 ```
 
 # Firefox & Chromium (in Screen Windows)

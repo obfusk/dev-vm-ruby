@@ -26,8 +26,10 @@ fi
 export OLD_KEY=yes
 
 vagrant up
-vagrant ssh -c 'cat > ~/id_rsa.pub' < id_rsa.pub
-vagrant ssh -c 'cp ~/id_rsa.pub ~/.ssh/authorized_keys'
+
+cp id_rsa.pub shared/
+vagrant ssh -c 'cp ~/shared/id_rsa.pub ~/.ssh/authorized_keys'
+rm shared/id_rsa.pub
 
 export OLD_KEY=no
 
