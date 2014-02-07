@@ -2,7 +2,7 @@
 
     File        : README.md
     Maintainer  : Felix C. Stegerman <flx@obfusk.net>
-    Date        : 2014-01-25
+    Date        : 2014-02-07
 
     Copyright   : Copyright (C) 2014  Felix C. Stegerman
 
@@ -14,6 +14,8 @@
   dev-vm-ruby - ruby development VM (scripts)
 
 ### Security
+
+[]: {{{2
 
   **NB**: vagrant **is very insecure** by default.  Older versions run
   ssh listening on all IP addresses -- newer versions still listen on
@@ -32,6 +34,19 @@
   is built -- someone with access to the VM via ssh (which could be
   anyone on your local network with older versions of vagrant) could
   still compromise the VM using the default keys/password.
+
+#### Services
+
+  Make sure you don't run any services on your computer or network
+  that you don't want the VM to be able to access.
+
+#### When Using VNC
+
+  The VNC server port will be forwarded to localhost (port 5901).  You
+  should probably use a firewall and a single-user system to keep
+  others out.
+
+[]: }}}2
 
 ### Usage
 

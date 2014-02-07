@@ -23,7 +23,8 @@ packages=(
   debian-goodies
 
   xclip vim-gtk
-  chromium-browser firefox
+  chromium-browser firefox mc
+  tightvncserver openbox xterm
 )
 
 rm_packages=(
@@ -91,7 +92,10 @@ cat <<__END | sed 's!^  !!' | sudo -H -u vagrant bash -xe
       [ -d "\\\$_path" ] && PATH="\\\$_path:\\\$PATH"
     done
     unset _path
+
     export LC_ALL=C LANG=C GEM_HOME="\\\$HOME/.gem/ruby/1.9.1"
+
+    [ -z "\\\$DISPLAY" ] && export DISPLAY=:1
 
   __END
 

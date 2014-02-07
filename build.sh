@@ -33,6 +33,8 @@ rm shared/id_rsa.pub
 
 export OLD_KEY=no
 
+vagrant ssh-config > .ssh-config
+
 vagrant ssh -c 'sudo aptitude clean'
 vagrant package --output "$box-$( date +%FT%T ).box"
 

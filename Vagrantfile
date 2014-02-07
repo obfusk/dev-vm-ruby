@@ -6,6 +6,7 @@ cfg = {
   # "#{Dir.home}/projects"  => '/home/vagrant/projects',
   },
   custom: ['modifyvm', :id, '--memory', 512],
+  fwd_x:  false,
 }
 
 require 'fileutils'
@@ -21,7 +22,7 @@ f = -> config {
   if ENV['OLD_KEY'] != 'yes'
     config.ssh.private_key_path = cfg[:priv_key]
   end
-  config.ssh.forward_x11 = true
+  config.ssh.forward_x11 = cfg[:fwd_x]
   config.vm.provision :shell, :path => 'provision.sh'
 }
 

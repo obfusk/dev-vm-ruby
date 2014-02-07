@@ -7,6 +7,21 @@ host$ vagrant ssh -c 'byobu bash'                     # ssh to VM w/ byobu
 host$ vagrant halt                                    # stop VM
 ```
 
+# Shares (Vagrantfile)
+
+```ruby
+'shared'                => '/home/vagrant/shared',
+"#{Dir.home}/projects"  => '/home/vagrant/projects',
+"#{Dir.home}/.apps"     => '/home/vagrant/.apps',
+```
+
+# Updates
+
+```bash
+sudo aptitude update                                  # update package lists
+sudo aptitude safe-upgrade                            # upgrade packages
+```
+
 # Byobu/Screen
 
 ```
@@ -44,35 +59,6 @@ host$ pg_dump -h localhost -U $USERNAME -O $DBNAME > shared/$DBNAME.sql   # dump
 vm$   psql    -h localhost -U $USERNAME    $DBNAME < shared/$DBNAME.sql   # restore
 ```
 
-# Firefox & Chromium (in Screen Windows)
-
-```bash
-cd ~/projects/some/project
-map 'screen $it' 'rails s' 'firefox localhost:3000' 'chromium-browser localhost:3000'
-```
-
-# Shares (Vagrantfile)
-
-```ruby
-'shared'                => '/home/vagrant/shared',
-"#{Dir.home}/projects"  => '/home/vagrant/projects',
-"#{Dir.home}/.apps"     => '/home/vagrant/.apps',
-```
-
-# Updates
-
-```bash
-sudo aptitude update                                  # update package lists
-sudo aptitude safe-upgrade                            # upgrade packages
-```
-
-# Useful Programs
-
-```bash
-sudo aptitude install gedit-developer-plugins         # gedit editor
-sudo aptitude install thunar                          # thunar file manager
-```
-
 # Port Forwarding
 
 ## Vagrant v1
@@ -90,6 +76,56 @@ config.vm.network :forwarded_port, guest: 80, host: 8080
 ## Using SSH
 
 ```bash
-host$ vagrant ssh-config > ssh-config
-host$ ssh -F ssh-config -Nv -L 8080:localhost:80 default
+host$ ssh -F .ssh-config -Nv -L 8080:localhost:80 default
+```
+
+# Graphical Programs
+
+If you trust the VM, you can use X forwarding to give it access to
+your X server.  **Only use this if you trust the VM**, as it will have
+access to e.g. your keystrokes.
+
+Alternatively, you can use VNC.
+
+## X forwarding
+
+Enable `fwd_x` in the `Vagrantfile`.  Now you can start e.g. `firefox`
+in the VM.
+
+## VNC
+
+1.  Run `vncserver :1 ; openbox &` to start the VNC server.
+2.  Forward port `5901` to `5901` using vagrant or SSH.
+3.  Connect to the VNC server at `localhost:5901` using a remote
+    desktop viewer.
+4.  Run `vncserver -kill :1` to stop the VNC server.
+
+# Useful Programs
+
+```bash
+mc                                                    # midnight commander file manager
+nano
+vim
+htop
+tree
+```
+
+```bash
+gvim
+firefox
+chromium
+xterm
+xterm -e mc                                           # mc in xterm
+```
+
+```bash
+sudo aptitude install gedit-developer-plugins         # gedit editor
+sudo aptitude install thunar                          # thunar file manager
+```
+
+# Firefox & Chromium (in Screen Windows)
+
+```bash
+cd ~/projects/some/project
+map 'screen $it' 'rails s' 'firefox localhost:3000' 'chromium-browser localhost:3000'
 ```

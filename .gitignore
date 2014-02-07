@@ -2,6 +2,7 @@
 *.swp
 
 /*.box
+/.ssh-config
 /.vagrant
 /id_rsa*
 /shared
