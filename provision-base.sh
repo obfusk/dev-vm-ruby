@@ -10,6 +10,7 @@ packages=( # {{{
 ) # }}}
 
        ruby_packages=( ruby1.9.1-full )
+     python_packages=( python-virtualenv )
      sqlite_packages=( libsqlite3-dev sqlite3 )
   memcached_packages=( memcached )
       redis_packages=( redis-server )
@@ -46,6 +47,10 @@ ______END
       Package: *
       Pin: release o=apt.postgresql.org
       Pin-Priority: 200
+
+      Package: postgres* libpq*
+      Pin: release o=apt.postgresql.org
+      Pin-Priority: 500
 ______END
   }
 ;;
@@ -103,6 +108,7 @@ aptitude update; aptitude -y safe-upgrade
 pkgs=( "${packages[@]}" )
 
 [ "$ruby"         = no ] || pkgs+=( "${ruby_packages[@]}"         )
+[ "$python"       = no ] || pkgs+=( "${python_packages[@]}"       )
 [ "$sqlite"       = no ] || pkgs+=( "${sqlite_packages[@]}"       )
 [ "$memcached"    = no ] || pkgs+=( "${memcached_packages[@]}"    )
 [ "$redis"        = no ] || pkgs+=( "${redis_packages[@]}"        )
@@ -146,15 +152,17 @@ cat <<__END | sed 's!^  !!' | sudo -H -u vagrant bash -xe # {{{
 
   ( # {{{
     cd opt/src
-    for x in sh-config dev-misc map.sh; do
+    for x in sh-config dev-misc map.sh taskmaster venv; do
       test -e "\$x" || git clone https://github.com/obfusk/"\$x".git
     done
   ) # }}}
 
-  ln -fs opt/src/dev-misc/vimrc       .vimrc
-  ln -fs ../opt/src/map.sh/bin/filter bin/filter
-  ln -fs ../opt/src/map.sh/bin/map    bin/map
-  ln -fs /usr/bin/ack-grep            bin/ack
+  ln -fs opt/src/dev-misc/vimrc           .vimrc
+  ln -fs ../opt/src/map.sh/bin/filter     bin/filter
+  ln -fs ../opt/src/map.sh/bin/map        bin/map
+  ln -fs ../opt/src/taskmaster/taskmaster bin/taskmaster
+  ln -fs ../opt/src/venv/venv             bin/venv
+  ln -fs /usr/bin/ack-grep                bin/ack
 
   grep -qF prompt.bash .bashrc || \
   sed 's!^  !!' >> .bashrc <<__END
