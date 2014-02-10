@@ -194,6 +194,6 @@ cat <<__END | sed 's!^  !!' | sudo -H -u vagrant bash -xe # {{{
   # git config --global user.email ...
   git config --global color.ui auto
 
-  [ ! -x "\$( which gem ) ] || gem install bundler pry
+  [ ! -x "\$( which gem )" ] || gem install bundler pry
 __END
 # }}}
