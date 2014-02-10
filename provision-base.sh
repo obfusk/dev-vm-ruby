@@ -83,6 +83,7 @@ ______END
       Pin: release o=10gen
       Pin-Priority: 200
 ______END
+  }
 ;;
 no)
   mongo_packages=()
