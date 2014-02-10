@@ -112,15 +112,11 @@ tree
 
 ```bash
 gvim
+gedit
 firefox
 chromium
 xterm
 xterm -e mc                                           # mc in xterm
-```
-
-```bash
-sudo aptitude install gedit-developer-plugins         # gedit editor
-sudo aptitude install thunar                          # thunar file manager
 ```
 
 # Firefox & Chromium (in Screen Windows)

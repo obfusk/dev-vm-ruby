@@ -5,4 +5,5 @@
 /.ssh-config
 /.vagrant
 /id_rsa*
+/provision.sh
 /shared

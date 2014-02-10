@@ -26,6 +26,8 @@ f = -> config {
   config.vm.provision :shell, :path => 'provision.sh'
 }
 
+system 'cat provision-cfg.sh provision-base.sh > provision.sh'
+
 Dir.mktmpdir do |tdir|
 
   if Vagrant::VERSION =~ /^1\.0\./
