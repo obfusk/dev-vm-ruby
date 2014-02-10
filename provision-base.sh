@@ -115,8 +115,9 @@ pkgs=( "${packages[@]}" )
 
 pg_prep; mongo_prep; aptitude update
 
-aptitude install -y "${pkgs[@]}" "${pg_packages[@]}" "${mongo_packages[@]}"
-aptitude purge -y "${rm_packages[@]}"
+aptitude install -y "${pkgs[@]}" "${install_packages[@]}" \
+  "${pg_packages[@]}" "${mongo_packages[@]}"
+aptitude purge -y "${rm_packages[@]}" "${remove_packages[@]}"
 
 update-alternatives --set editor /usr/bin/vim.basic
 
