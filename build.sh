@@ -15,7 +15,7 @@ if ! test -e id_rsa; then
     ln -s "$HOME"/.ssh/id_rsa
     ln -s "$HOME"/.ssh/id_rsa.pub
   else
-    ssh-keygen -f id_rsa -P ''
+    ssh-keygen -f id_rsa -P '' -C "$box ($USER@$( hostname ))"
   fi
 fi
 
