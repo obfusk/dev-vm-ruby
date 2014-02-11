@@ -120,6 +120,9 @@ in the VM.
 mc                                                    # midnight commander file manager
 nano
 vim
+ack
+tig
+grc
 htop
 tree
 ```
@@ -127,8 +130,10 @@ tree
 ```bash
 gvim
 gedit
+git gui
+gitg
 firefox
-chromium
+chromium-browser
 xterm
 xterm -e mc                                           # mc in xterm
 ```
