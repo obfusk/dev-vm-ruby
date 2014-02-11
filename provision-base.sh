@@ -7,7 +7,7 @@ packages=( # {{{
 
   zlib1g-dev libssl-dev libreadline-gplv2-dev
   libxml2-dev libxslt1-dev
-) # }}}
+)
 
        ruby_packages=( ruby1.9.1-full )
      python_packages=( python-virtualenv )
@@ -22,7 +22,8 @@ imagemagick_packages=( imagemagick libmagickwand-dev )
 
 x_packages=(
   xclip vim-gtk xterm chromium-browser firefox gedit-developer-plugins
-)
+  bzr- zeitgeist-
+) # }}}
 
 case "$pg" in # {{{
 ubuntu)
@@ -68,6 +69,7 @@ case "$mongo" in # {{{
 ubuntu)
   mongo_packages=( mongodb )
   mongo_prep () { :; }
+  mongo_fix  () { :; }
 ;;
 10gen)
   mongo_packages=( mongodb-10gen )
@@ -89,10 +91,16 @@ ______END
       Pin-Priority: 200
 ______END
   }
+  mongo_fix () {
+    grep -qF bind_ip /etc/mongodb.conf || \
+    sed -i '/port *=/i \bind_ip = 127.0.0.1' /etc/mongodb.conf
+    service mongodb restart
+  }
 ;;
 no)
   mongo_packages=()
   mongo_prep () { :; }
+  mongo_fix  () { :; }
 ;;
 *)
   echo "unexpected \$mongo: $mongo" >&2
@@ -102,10 +110,26 @@ esac # }}}
 
 rm_packages=( rpcbind cloud-init )
 
+git_obfusk=( sh-config dev-misc map.sh taskmaster venv)
+git_other=( kchmck/vim-coffee-script plasticboy/vim-markdown )
+
+links="
+  ln -fs opt/src/dev-misc/vimrc           .vimrc
+  ln -fs ../opt/src/map.sh/bin/filter     bin/filter
+  ln -fs ../opt/src/map.sh/bin/map        bin/map
+  ln -fs ../opt/src/taskmaster/taskmaster bin/taskmaster
+  ln -fs ../opt/src/venv/venv             bin/venv
+  ln -fs /usr/bin/ack-grep                bin/ack
+"
+
+# --
+
+before
+
 passwd -l vagrant
 aptitude update; aptitude -y safe-upgrade
 
-pkgs=( "${packages[@]}" )
+pkgs=( "${packages[@]}" ) # {{{
 
 [ "$ruby"         = no ] || pkgs+=( "${ruby_packages[@]}"         )
 [ "$python"       = no ] || pkgs+=( "${python_packages[@]}"       )
@@ -118,6 +142,7 @@ pkgs=( "${packages[@]}" )
 [ "$gitolite"     = no ] || pkgs+=( "${gitolite_packages[@]}"     )
 [ "$vnc"          = no ] || pkgs+=( "${vnc_packages[@]}"          )
 [ "$X"            = no ] || pkgs+=( "${x_packages[@]}"            )
+# }}}
 
 pg_prep; mongo_prep; aptitude update
 
@@ -125,7 +150,9 @@ aptitude install -y "${pkgs[@]}" "${install_packages[@]}" \
   "${pg_packages[@]}" "${mongo_packages[@]}"
 aptitude purge -y "${rm_packages[@]}" "${remove_packages[@]}"
 
-update-alternatives --set editor /usr/bin/vim.basic
+mongo_fix
+
+update-alternatives --set editor "$editor"
 
 if test "$ruby" != no; then
   update-alternatives --set ruby  /usr/bin/ruby1.9.1
@@ -152,17 +179,15 @@ cat <<__END | sed 's!^  !!' | sudo -H -u vagrant bash -xe # {{{
 
   ( # {{{
     cd opt/src
-    for x in sh-config dev-misc map.sh taskmaster venv; do
+    for x in ${git_obfusk[@]}; do
       test -e "\$x" || git clone https://github.com/obfusk/"\$x".git
+    done
+    for x in ${git_other[@]}; do
+      test -e "\$x" || git clone https://github.com/"\$x".git
     done
   ) # }}}
 
-  ln -fs opt/src/dev-misc/vimrc           .vimrc
-  ln -fs ../opt/src/map.sh/bin/filter     bin/filter
-  ln -fs ../opt/src/map.sh/bin/map        bin/map
-  ln -fs ../opt/src/taskmaster/taskmaster bin/taskmaster
-  ln -fs ../opt/src/venv/venv             bin/venv
-  ln -fs /usr/bin/ack-grep                bin/ack
+  $links
 
   grep -qF prompt.bash .bashrc || \
   sed 's!^  !!' >> .bashrc <<__END
@@ -199,10 +224,12 @@ cat <<__END | sed 's!^  !!' | sudo -H -u vagrant bash -xe # {{{
   byobu-select-backend screen
   byobu-ctrl-a screen
 
-  # git config --global user.name ...
-  # git config --global user.email ...
+  [ -z "$user_name"  ] || git config --global user.name "$user_name"
+  [ -z "$user_email" ] || git config --global user.email "$user_email"
   git config --global color.ui auto
 
   [ ! -x "\$( which gem )" ] || gem install bundler pry
 __END
 # }}}
+
+after

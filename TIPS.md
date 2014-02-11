@@ -15,6 +15,11 @@ host$ vagrant halt                                    # stop VM
 "#{Dir.home}/.apps"     => '/home/vagrant/.apps',
 ```
 
+# ssh and git
+
+You may want to generate (using `ssh-keygen`) a new ssh key for the VM
+or copy your existing one (to `~/.ssh`).
+
 # Updates
 
 ```bash
@@ -60,6 +65,15 @@ vm$   psql    -h localhost -U $USERNAME    $DBNAME < shared/$DBNAME.sql   # rest
 ```
 
 # Port Forwarding
+
+NB: vagrant's port forwarding will listen on all IP addresses (by
+default), ssh will only listen on localhost (by default).
+
+## cfg (Vagrantfile)
+
+```ruby
+8080 => 80
+```
 
 ## Vagrant v1
 
