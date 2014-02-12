@@ -239,14 +239,15 @@ cat <<__END | sed 's!^  !!' | sudo -H -u vagrant bash -xe # {{{
   grep -qF LC_ALL .profile || \
   sed 's!^  !!' >> .profile <<__END # {{{
 
-    for _path in \
-      "\\\$HOME/.gem/ruby/1.9.1/bin" ;
+    for _path in \\
+      "\\\$HOME/.node/bin" "\\\$HOME/.gem/ruby/1.9.1/bin" ;
     do
       [ -d "\\\$_path" ] && PATH="\\\$_path:\\\$PATH"
     done
     unset _path
 
     export LC_ALL=C LANG=C GEM_HOME="\\\$HOME/.gem/ruby/1.9.1"
+    export NODE_PATH="\\\$HOME/.node/lib/node_modules"
 
     [ -z "\\\$DISPLAY" ] && export DISPLAY=:1
 
@@ -265,6 +266,8 @@ cat <<__END | sed 's!^  !!' | sudo -H -u vagrant bash -xe # {{{
     unicode = false
   __END
 
+  mkdir -p "\$HOME/bin" "\$HOME/.node/bin" "\$HOME/.gem/ruby/1.9.1/bin"
+
   . .profile
 
   byobu-select-backend screen
@@ -275,6 +278,7 @@ cat <<__END | sed 's!^  !!' | sudo -H -u vagrant bash -xe # {{{
   git config --global color.ui auto
 
   [ ! -x "\$( which gem )" ] || gem install bundler pry
+  [ ! -x "\$( which npm )" ] || npm -g install coffee-script
 __END
 # }}}
 
