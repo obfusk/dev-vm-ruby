@@ -185,7 +185,8 @@ if test "$nodejs" = tar; then # {{{
     (
       cd tmp/extract
       tar --no-same-owner --no-same-permissions -x -f "$f"
-      chk="$( find -perm /7022 -o -not -user 0 -o -not -group 0 )"
+      chk="$( find -not -type l \( -perm /7022 -o -not -user 0
+                                   -o -not -group 0 \) )"
       if ! test "$chk" = ''; then
         echo 'F*CK!' >&2; exit 1
       fi
