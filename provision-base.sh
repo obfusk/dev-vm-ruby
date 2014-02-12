@@ -24,6 +24,11 @@ imagemagick_packages=( imagemagick libmagickwand-dev )
   phantomjs_packages=( phantomjs )
         vnc_packages=( tightvncserver openbox menu )
 
+libav_packages=(
+  libav-tools libavcodec-extra-53 libavdevice-extra-53
+  libavfilter-extra-2 libavformat-extra-53 libpostproc-extra-52
+)
+
 x_packages=(
   xclip vim-gtk xterm
   gitg git-gui gitk
@@ -146,8 +151,9 @@ pkgs=( "${packages[@]}" ) # {{{
 [ "$nginx"       != yes ] || pkgs+=( "${nginx_packages[@]}"       )
 [ "$gitolite"    != yes ] || pkgs+=( "${gitolite_packages[@]}"    )
 [ "$phantomjs"   != yes ] || pkgs+=( "${phantomjs_packages[@]}"   )
-[ "$vnc"         != yes ] || pkgs+=( "${vnc_packages[@]}"         )
+[ "$libav"       != yes ] || pkgs+=( "${libav_packages[@]}"       )
 [ "$X"           != yes ] || pkgs+=( "${x_packages[@]}"           )
+[ "$vnc"         != yes ] || pkgs+=( "${vnc_packages[@]}"         )
 
 [ "$nodejs"      != ubu ] || pkgs+=( "${nodejs_packages[@]}"      )
 # }}}
