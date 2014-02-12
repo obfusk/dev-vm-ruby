@@ -41,5 +41,5 @@ if test "$INTERACT" = yes; then
   read -p 'press return... '
 fi
 
-[ "$NOPACKAGE" = yes ] || vagrant package --output "$box-$( date +%FT%T ).box"
-[ "$KEEP"      = yes ] || vagrant destroy
+[ "$PACKAGE"  = no  ] || vagrant package --output "$box-$( date +%FT%T ).box"
+[ "$KEEP"     = yes ] || vagrant destroy
