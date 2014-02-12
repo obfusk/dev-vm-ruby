@@ -11,7 +11,7 @@ box_url='https://cloud-images.ubuntu.com/vagrant/precise/current/'
 box_url+='precise-server-cloudimg-amd64-vagrant-disk1.box'
 
 if ! test -e id_rsa; then
-  if [ "$USE_MY_KEY" == yes ]; then
+  if test "$USE_MY_KEY" = yes; then
     ln -s "$HOME"/.ssh/id_rsa
     ln -s "$HOME"/.ssh/id_rsa.pub
   else
@@ -34,8 +34,12 @@ rm shared/id_rsa.pub
 export OLD_KEY=no
 
 vagrant ssh-config > .ssh-config
-
 vagrant ssh -c 'sudo aptitude clean'
-vagrant package --output "$box-$( date +%FT%T ).box"
 
-[ "$KEEP" == yes ] || vagrant destroy
+if test "$INTERACT" = yes; then
+  vagrant ssh -c 'byobu bash'
+  read -p 'press return... '
+fi
+
+[ "$NOPACKAGE" = yes ] || vagrant package --output "$box-$( date +%FT%T ).box"
+[ "$KEEP"      = yes ] || vagrant destroy
