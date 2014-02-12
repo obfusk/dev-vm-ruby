@@ -22,7 +22,7 @@ imagemagick_packages=( imagemagick libmagickwand-dev )
       nginx_packages=( nginx-full )
    gitolite_packages=( gitolite )
   phantomjs_packages=( phantomjs )
-        vnc_packages=( tightvncserver openbox )
+        vnc_packages=( tightvncserver openbox menu )
 
 x_packages=(
   xclip vim-gtk xterm

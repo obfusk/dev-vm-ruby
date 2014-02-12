@@ -42,7 +42,8 @@ Dir.mktmpdir do |tdir|
       f[config]
       config.vm.host_name = cfg[:host]
       config.vm.customize cfg[:custom]
-      config.vm.network :hostonly, cfg[:ip] unless parent
+      config.vm.network :hostonly, cfg[:ip] \
+        unless parent || !cfg[:ip]
       config.vm.share_folder 'v-root', '/.vagrant-shared',
         "#{tdir}/.shared", create: true
       cfg[:shares].each do |k,v|
@@ -59,7 +60,8 @@ Dir.mktmpdir do |tdir|
       config.vm.provider :virtualbox do |vb|
         vb.customize cfg[:custom]
       end
-      config.vm.network :private_network, ip: cfg[:ip] unless parent
+      config.vm.network :private_network, ip: cfg[:ip] \
+        unless parent || !cfg[:ip]
       config.vm.synced_folder '.', '/vagrant', disabled: true
       cfg[:shares].each do |k,v|
         config.vm.synced_folder k, v, create: true

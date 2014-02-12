@@ -108,11 +108,11 @@ in the VM.
 
 ## VNC
 
-1.  Run `vncserver :1 ; openbox &` to start the VNC server.
-2.  Forward port `5901` to `5901` using vagrant or SSH.
-3.  Connect to the VNC server at `localhost:5901` using a remote
+1.  Run `vncserver -geometry 1280x800 :1 ; openbox &` to start the VNC
+    server.
+2.  Connect to the VNC server at `192.168.88.10:5901` using a remote
     desktop viewer.
-4.  Run `vncserver -kill :1` to stop the VNC server.
+3.  Run `vncserver -kill :1` to stop the VNC server.
 
 # Useful Programs
 
