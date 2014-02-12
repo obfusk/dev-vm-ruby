@@ -125,7 +125,7 @@ links () { # {{{
 } # }}}
 
 user_links="
-  ln -fs opt/src/dev-misc/vimrc           .vimrc
+  ln -fs /opt/src/dev-misc/vimrc .vimrc
 "
 
 # --
@@ -185,7 +185,7 @@ if test "$nodejs" = tar; then # {{{
     (
       cd tmp/extract
       tar --no-same-owner --no-same-permissions -x -f "$f"
-      chk="$( find -not -type l \( -perm /7022 -o -not -user 0
+      chk="$( find -not -type l \( -perm /7022 -o -not -user 0 \
                                    -o -not -group 0 \) )"
       if ! test "$chk" = ''; then
         echo 'F*CK!' >&2; exit 1
@@ -231,7 +231,7 @@ cat <<__END | sed 's!^  !!' | sudo -H -u vagrant bash -xe # {{{
   grep -qF prompt.bash .bashrc || \
   sed 's!^  !!' >> .bashrc <<__END
 
-    . ~/opt/src/sh-config/prompt.bash
+    . /opt/src/sh-config/prompt.bash
 
   __END
 
