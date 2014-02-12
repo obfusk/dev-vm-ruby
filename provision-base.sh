@@ -258,6 +258,12 @@ cat <<__END | sed 's!^  !!' | sudo -H -u vagrant bash -xe # {{{
     update:  --no-rdoc --no-ri
   __END
 
+  grep -qF prefix .npmrc || \
+  sed 's!^  !!' >> .npmrc <<__END
+    prefix = ~/.node
+    unicode = false
+  __END
+
   . .profile
 
   byobu-select-backend screen
