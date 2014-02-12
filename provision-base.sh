@@ -1,5 +1,7 @@
 set -xe
 
+umask 022
+
 packages=( # {{{
   etckeeper git
   byobu curl grc htop tree vim
@@ -179,13 +181,17 @@ if test "$nodejs" = tar; then # {{{
   fi
   (
     cd /opt/pkg
-    mkdir -p tmp; chmod 700 tmp; cd tmp
-    tar xf "$f"
-    if ! test "$( find -perm /7000 )" = ''; then
-      echo 'FUCK!' >&2; exit 1
-    fi
-    mv node-"$v"-linux-x64 ../
-    cd ..; rmdir tmp
+    mkdir tmp tmp/extract; chmod 700 tmp tmp/extract
+    (
+      cd tmp/extract
+      tar --no-same-owner --no-same-permissions -x -f "$f"
+      chk="$( find -perm /7022 -o -not -user 0 -o -not -group 0 )"
+      if ! test "$chk" = ''; then
+        echo 'F*CK!' >&2; exit 1
+      fi
+      mv node-"$v"-linux-x64 ../../
+    )
+    rmdir -p tmp/extract
     ln -fs node-"$v"-linux-x64 node
     ln -fs /opt/pkg/node/bin/node /usr/local/bin/node
     ln -fs /opt/pkg/node/bin/npm  /usr/local/bin/npm
