@@ -171,16 +171,17 @@ mongo_fix
   done
 ) # }}}
 
-if test "$nodejs" = tar; then # {{{
+if test "$nodejs" = tar; then ( # {{{
+  cd /opt/pkg
   s=01eff016df73931fc1b289fc7028fc1ec7eb902890c03f88c70bfbbb3d5e5b0f7f01517f02f4dc28188c9dd507886bf9c1b799b6c88e9d9454a68f98afc17557
   v=v0.10.25
-  f="$( mktemp )"
-  curl "http://nodejs.org/dist/$v/node-$v-linux-x64.tar.gz" > "$f"
-  if ! test "$( sha512sum "$f" | awk '{print $1}' )" = "$s"; then
-    echo "shasum does not match" >&2; exit 1
-  fi
-  (
-    cd /opt/pkg
+  d=node-"$v"-linux-x64
+  if ! test -e "$d"; then
+    f="$( mktemp )"
+    curl "http://nodejs.org/dist/$v/node-$v-linux-x64.tar.gz" > "$f"
+    if ! test "$( sha512sum "$f" | awk '{print $1}' )" = "$s"; then
+      echo "shasum does not match" >&2; exit 1
+    fi
     mkdir tmp tmp/extract; chmod 700 tmp tmp/extract
     (
       cd tmp/extract
@@ -190,15 +191,15 @@ if test "$nodejs" = tar; then # {{{
       if ! test "$chk" = ''; then
         echo 'F*CK!' >&2; exit 1
       fi
-      mv node-"$v"-linux-x64 ../../
+      mv "$d" ../../
     )
     rmdir -p tmp/extract
-    ln -fs node-"$v"-linux-x64 node
-    ln -fs /opt/pkg/node/bin/node /usr/local/bin/node
-    ln -fs /opt/pkg/node/bin/npm  /usr/local/bin/npm
-  )
-  rm -f "$f"
-fi # }}}
+    rm -f "$f"
+  fi
+  ln -fs "$d" node
+  ln -fs /opt/pkg/node/bin/node /usr/local/bin/node
+  ln -fs /opt/pkg/node/bin/npm  /usr/local/bin/npm
+) fi # }}}
 
 links
 
