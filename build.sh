@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -xe
+export LC_ALL=C
 
 parent=precise64-cloud
 box=dev-vm-ruby
@@ -32,6 +33,8 @@ vagrant ssh -c 'cp ~/shared/id_rsa.pub ~/.ssh/authorized_keys'
 rm shared/id_rsa.pub
 
 export OLD_KEY=no
+
+./ansible.sh
 
 vagrant ssh-config > .ssh-config
 vagrant ssh -c 'sudo aptitude clean'

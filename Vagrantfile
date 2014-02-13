@@ -19,9 +19,6 @@ require 'tmpdir'
 
 cfg[:shares].each { |k,v| FileUtils.mkdir_p k }
 
-system 'rsync -a --delete ansible/ shared/ansible/' \
-  or raise 'OOPS' if File.exists? 'ansible'
-
 parent  = ENV['PARENT_BOX'] == 'yes'
 box     = parent ? 'precise64-cloud' : cfg[:box]
 

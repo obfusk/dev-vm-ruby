@@ -1,0 +1,23 @@
+---
+
+- name:         install common packages
+  apt:          apt name={{ item }} state=present
+  with_items:
+    - etckeeper
+    - git
+    - byobu
+    - curl
+    - grc
+    - htop
+    - tree
+    - vim
+    - ack-grep
+    - mc
+    - tig
+    - build-essential
+    - debian-goodies
+    - zlib1g-dev
+    - libssl-dev
+    - libreadline-gplv2-dev
+    - libxml2-dev
+    - libxslt1-dev

@@ -1,0 +1,39 @@
+---
+
+- name:         configure VM
+  hosts:        all
+  user:         root
+
+  vars:
+    editor:     /usr/bin/vim.basic
+    git:
+      user:     vagrant
+      email:    vagrant@localhost
+
+  tasks:
+    - name:     lock password
+      command:  passwd -l vagrant
+
+    - name:     update packages
+      apt:      upgrade=safe update_cache=yes cache_valid_time=3600
+
+  roles:
+    - common
+    - ruby
+    - python
+    - sqlite
+    - memcached
+    - redis
+    - imagemagick
+    - nginx
+    - gitolite
+    - phantomjs
+    - libav
+    - X
+    - vnc
+  # - pg
+    - pg-pgdg
+  # - mongo
+    - mongo-10gen
+  # - nodejs
+    - nodejs-tar
