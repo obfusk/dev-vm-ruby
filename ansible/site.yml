@@ -15,23 +15,23 @@
       command:      passwd -l vagrant
 
   roles:
-    - update
-    - common
-    - ruby
-    - python
-    - sqlite
-    - memcached
-    - redis
-    - imagemagick
-    - nginx
-    - gitolite
-    - phantomjs
-    - libav
-    - X
-    - vnc
+  # - update
+  # - common
+  # - ruby
+  # - python
+  # - sqlite
+  # - memcached
+  # - redis
+  # - imagemagick
+  # - nginx
+  # - gitolite
+  # - phantomjs
+  # - libav
+  # - X
+  # - vnc
   # - pg
-    - pg-pgdg
+  # - pg-pgdg
   # - mongo
-    - mongo-10gen
+  # - mongo-10gen
   # - nodejs
-    - nodejs-tar
+  # - nodejs-tar
