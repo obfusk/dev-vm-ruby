@@ -1,0 +1,4 @@
+---
+
+- name:             install memcached packages
+  apt:              name=memcached state=present
