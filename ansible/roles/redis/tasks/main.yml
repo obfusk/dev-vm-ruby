@@ -1,0 +1,4 @@
+---
+
+- name:             install redis packages
+  apt:              name=redis-server state=present
