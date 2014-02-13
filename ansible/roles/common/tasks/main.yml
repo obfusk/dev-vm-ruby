@@ -1,28 +1,44 @@
 ---
 
-- name:             install common packages
+- name:             install etckeeper and git
   apt:              name={{ item }} state=present
   with_items:
     - etckeeper
     - git
+
+- name:             install some tools
+  apt:              name={{ item }} state=present
+  with_items:
+    - ack-grep
     - byobu
     - curl
     - grc
     - htop
     - tree
     - vim
-    - ack-grep
+
+- name:             install some more tools
+  apt:              name={{ item }} state=present
+  with_items:
     - mc
     - tig
+
+- name:             install development and sysadmin tools
+  apt:              name={{ item }} state=present
+  with_items:
     - build-essential
     - debian-goodies
+
+- name:             install some -dev packages
+  apt:              name={{ item }} state=present
+  with_items:
     - zlib1g-dev
     - libssl-dev
     - libreadline-gplv2-dev
     - libxml2-dev
     - libxslt1-dev
 
-- name:             remove common packages
+- name:             remove unwanted packages
   apt:              name={{ item }} state=absent
   with_items:
     - rpcbind
