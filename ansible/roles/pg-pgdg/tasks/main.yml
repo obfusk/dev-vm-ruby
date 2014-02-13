@@ -1,0 +1,21 @@
+---
+
+- name:             get apt key for pgdg
+  get_url:          url=https://www.postgresql.org/media/keys/ACCC4CF8.asc dest=/root/cache/ACCC4CF8.asc
+                    sha256sum=fbdb6c565cd95957b645197686587f7735149383a3d5e1291b6830e6730e672f
+
+- name:             install apt key for pgdg
+  apt_key:          id=ACCC4CF8 url=file:///root/cache/ACCC4CF8.asc state=present
+
+- name:             sources.list.d for pgdg
+  copy:             dest=/etc/apt/sources.list.d/pgdg.list src=pgdg.list
+  notify:           update apt cache
+
+- name:             preferences.d for pgdg
+  copy:             dest=/etc/apt/preferences.d/pgdg.pref src=pgdg.pref
+
+- name:             install postgresql packages from pgdg
+  apt:              name={{ item }} state=present
+  with_items:
+    - postgresql-contrib-9.3
+    - postgresql-server-dev-9.3

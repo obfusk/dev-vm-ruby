@@ -1,0 +1,3 @@
+Package: *
+Pin: release o=10gen
+Pin-Priority: 200

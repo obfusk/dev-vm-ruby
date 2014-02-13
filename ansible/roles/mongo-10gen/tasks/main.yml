@@ -1,0 +1,23 @@
+---
+
+- name:             get apt key for 10gen
+  get_url:          url=http://docs.mongodb.org/10gen-gpg-key.asc dest=/root/cache/7F0CEB10.asc
+                    sha256sum=003cebc076205e491558cec5f6ff1c21dd129b6e0686d5a6a54c12a00b3bbe50
+
+- name:             install apt key for 10gen
+  apt_key:          id=7F0CEB10 url=file:///root/cache/7F0CEB10.asc state=present
+
+- name:             sources.list.d for 10gen
+  copy:             dest=/etc/apt/sources.list.d/10gen.list src=10gen.list
+  notify:           update apt cache
+
+- name:             preferences.d for 10gen
+  copy:             dest=/etc/apt/preferences.d/10gen.pref src=10gen.pref
+
+- name:             install mongodb packages from 10gen
+  apt:              name=mongodb-10gen state=present
+
+- name:             make mongodb listen on localhost
+  lineinfile:       dest=/etc/mongodb.conf
+                    insertbefore='port *=' regexp='bind_ip' line='bind_ip = 127.0.0.1'
+  notify:           restart mongodb

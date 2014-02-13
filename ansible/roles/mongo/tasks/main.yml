@@ -1,0 +1,4 @@
+---
+
+- name:             install mongodb packages
+  apt:              name=mongodb state=present

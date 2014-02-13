@@ -1,0 +1,7 @@
+---
+
+- name:             install postgresql packages
+  apt:              name={{ item }} state=present
+  with_items:
+    - postgresql-contrib-9.1
+    - postgresql-server-dev-9.1

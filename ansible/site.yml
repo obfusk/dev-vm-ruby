@@ -41,7 +41,7 @@
     - vagrant
   # - update
   # - etckeeper
-  # - common
+    - common
   # - repos
   # - links
     - ruby
@@ -56,10 +56,10 @@
   # - libav
   # - X
   # - vnc
-  # - pg          TODO
-  # - pg-pgdg     TODO
-  # - mongo       TODO
-  # - mongo-10gen TODO
+  # - pg
+  # - pg-pgdg
+  # - mongo
+  # - mongo-10gen
   # - nodejs      TODO
   # - nodejs-tar  TODO
     - { role: vagrant-user, sudo_user: vagrant }
