@@ -1,23 +1,21 @@
 ---
 
-- name:         configure VM
-  hosts:        all
-  user:         root
+- name:             configure VM
+  hosts:            all
+  user:             root
 
   vars:
-    editor:     /usr/bin/vim.basic
+    editor:         /usr/bin/vim.basic
     git:
-      user:     vagrant
-      email:    vagrant@localhost
+      user:         vagrant
+      email:        vagrant@localhost
 
   tasks:
-    - name:     lock password
-      command:  passwd -l vagrant
-
-    - name:     update packages
-      apt:      upgrade=safe update_cache=yes cache_valid_time=3600
+    - name:         lock password
+      command:      passwd -l vagrant
 
   roles:
+    - update
     - common
     - ruby
     - python

@@ -1,7 +1,7 @@
 ---
 
-- name:         install common packages
-  apt:          apt name={{ item }} state=present
+- name:             install common packages
+  apt:              name={{ item }} state=present
   with_items:
     - etckeeper
     - git
