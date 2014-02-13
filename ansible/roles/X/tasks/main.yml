@@ -1,0 +1,25 @@
+---
+
+- name:             install some GUI tools
+  apt:              name={{ item }} state=present
+  with_items:
+    - git-gui
+    - gitg
+    - gitk
+    - vim-gtk
+    - xclip
+    - xterm
+    - zenity
+
+- name:             install some browsers
+  apt:              name={{ item }} state=present
+  with_items:
+    - chromium-codecs-ffmpeg-extra
+    - firefox
+
+- name:             install gedit
+  apt:              name={{ item }} state=present install_recommends=no
+  with_items:
+    - gedit-plugins
+    - gedit-developer-plugins
+    - python-cssutils
