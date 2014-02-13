@@ -2,7 +2,7 @@
 
 - name:             configure VM
   hosts:            all
-  user:             root
+  sudo:             true
 
   vars:
     alt:
@@ -30,15 +30,15 @@
           src:        /opt/src/venv/venv
       vagrant:        # TODO
         - path:       ~/.vimrc
-          sec:        /opt/src/dev-misc/vimrc
+          src:        /opt/src/dev-misc/vimrc
 
   roles:
     - vagrant
-    - update
-    - etckeeper
-    - common
-    - repos
-    - links
+  # - update
+  # - etckeeper
+  # - common
+  # - repos
+  # - links
   # - ruby
   # - python
   # - sqlite
@@ -57,3 +57,4 @@
   # - mongo-10gen
   # - nodejs
   # - nodejs-tar
+    - { role: vagrant-user, sudo_user: vagrant }

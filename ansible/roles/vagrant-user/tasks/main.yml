@@ -1,0 +1,54 @@
+---
+
+- name:             symlinks for vagrant
+  file:             path={{ item.path }} src={{ item.src }} state=link
+  with_items:       links.vagrant
+
+- name:             ~vagrant/.bashrc
+  copy:             dest=/home/vagrant/.bashrc src=bashrc
+                    mode=644 backup=yes
+
+- name:             ~vagrant/.profile
+  copy:             dest=/home/vagrant/.profile src=profile
+                    mode=644 backup=yes
+
+- name:             ~vagrant/.gemrc
+  copy:             dest=/home/vagrant/.gemrc src=gemrc
+                    mode=644 backup=yes
+
+- name:             ~vagrant/.npmrc
+  copy:             dest=/home/vagrant/.npmrc src=npmrc
+                    mode=644 backup=yes
+
+- name:             create directories in ~vagrant
+  file:             path=/home/vagrant/{{ item }} state=directory mode=755
+  with_items:
+    - bin
+    - .gem/ruby/1.9.1/bin
+    - .node/bin
+
+- name:             get byobu backend
+  shell:            cat /home/vagrant/.byobu/backend || true
+  register:         byobu_backend_vagrant
+  changed_when:     false
+
+- name:             byobu w/ screen
+  command:          byobu-select-backend screen
+  when:             '"screen" not in byobu_backend_vagrant.stdout'
+
+- name:             get byobu keybindings
+  shell:            cat /home/vagrant/.byobu/keybindings || true
+  register:         byobu_ctrla_vagrant
+  changed_when:     false
+
+- name:             byobu w/ ctrl-a
+  command:          byobu-ctrl-a screen
+  when:             '"register" not in byobu_ctrla_vagrant.stdout'
+
+
+# [ -z "$user_name"  ] || git config --global user.name "$user_name"
+# [ -z "$user_email" ] || git config --global user.email "$user_email"
+# git config --global color.ui auto
+
+# [ ! -x "\$( which gem )" ] || gem install bundler pry
+# [ ! -x "\$( which npm )" ] || npm -g install coffee-script
