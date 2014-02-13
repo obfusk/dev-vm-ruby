@@ -1,13 +1,13 @@
 ---
 
 - name:             get mtime of status file
-  shell:            stat -c %Z /root/.ansible || echo 0
+  shell:            stat -c %Z /root/._ansible || echo 0
   register:         status_mtime
   changed_when:     false
 
 - name:             update packages
   apt:              upgrade=safe update_cache=yes
-  when:             ansible_date_time.epoch|int - status_mtime|int > 3600
+  when:             ansible_date_time.epoch|int - status_mtime.stdout|int > 3600
 
 - name:             touch status file
   command:          touch /root/._ansible

@@ -1,0 +1,4 @@
+---
+
+- name:             install ruby packages
+  apt:              name=ruby1.9.1-full state=present install_recommends=no
