@@ -1,0 +1,4 @@
+---
+
+- name:             install gitolite packages
+  apt:              name=gitolite state=present
