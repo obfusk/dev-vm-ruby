@@ -47,5 +47,9 @@
 - name:             link ack to ack-grep
   file:             path=/usr/local/bin/ack src=/usr/bin/ack-grep state=link
 
-- name:             create /root/cache
-  file:             path=/root/cache state=directory
+- name:             create directories in /opt + /root/cache
+  file:             path={{ item }} state=directory mode=755
+  with_items:
+    - /opt/src
+    - /opt/pkg
+    - /root/cache

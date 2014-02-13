@@ -35,16 +35,16 @@
     gems:
       - bundler
       - pry
-    npms: [] # TODO
-    # - coffee-script
+    npms:
+      - coffee-script
 
   roles:
     - vagrant
   # - update
   # - etckeeper
     - common
-  # - repos
-  # - links
+    - repos
+    - links
     - ruby
   # - python
   # - sqlite
@@ -62,5 +62,5 @@
   # - mongo
     - mongo-10gen
   # - nodejs
-  # - nodejs-tar  TODO
-  # - { role: vagrant-user, sudo_user: vagrant }
+    - nodejs-tar
+    - { role: vagrant-user, sudo_user: vagrant }

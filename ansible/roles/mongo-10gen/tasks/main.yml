@@ -24,6 +24,6 @@
   apt:              name=mongodb-10gen state=present
 
 - name:             make mongodb listen on localhost
-  lineinfile:       dest=/etc/mongodb.conf
-                    insertbefore='port *=' regexp='bind_ip' line='bind_ip = 127.0.0.1'
+  lineinfile:       dest=/etc/mongodb.conf insertbefore='port *='
+                    regexp='bind_ip' line='bind_ip = 127.0.0.1' backup=yes
   notify:           restart mongodb

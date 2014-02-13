@@ -1,0 +1,52 @@
+---
+
+- name:             nodejs already installed?
+  command:          test -e {{ nodejs_pkgdir }}/node-{{ nodejs_version }}
+  register:         nodejs_exists
+  failed_when:      false
+  changed_when:     false
+
+- name:             get nodejs tar
+  get_url:          url="http://nodejs.org/dist/{{ nodejs_version }}/node-{{ nodejs_version }}-linux-x64.tar.gz"
+                    dest="/root/cache/node-{{ nodejs_version }}.tar" sha256sum={{ nodejs_sha256 }}
+
+- name:             temp dir for nodejs
+  command:          mktemp -d
+  register:         nodejs_tmp
+  changed_when:     false
+
+- name:             second level temp dir for nodejs
+  file:             path="{{ nodejs_tmp.stdout }}/2" state=directory mode=755
+  changed_when:     false
+
+- name:             untar nodejs
+  command:          tar --no-same-owner --no-same-permissions
+                    -C {{ nodejs_tmp.stdout }}/2 -x
+                    -f /root/cache/node-{{ nodejs_version }}.tar
+  when:             nodejs_exists.rc != 0
+
+- name:             check untarred nodejs
+  command:         'find -not -type l ( -perm /7022 -o -not -user 0 -o -not -group 0 )
+                    chdir="{{ nodejs_tmp.stdout }}/2"'
+  register:         nodejs_check
+  failed_when:      nodejs_check.stdout != ''
+  when:             nodejs_exists.rc != 0
+
+- name:             move untarred nodejs
+  command:         'mv -T {{ nodejs_tmp.stdout }}/2/node-{{ nodejs_version }}-linux-x64
+                    {{ nodejs_pkgdir }}/node-{{ nodejs_version }}
+                    creates="{{ nodejs_pkgdir }}/node-{{ nodejs_version }}"'
+
+- name:             nodejs symlinks
+  file:             path={{ item.path }} src={{ item.src }} state=link
+  with_items:
+    - path:         '{{ nodejs_pkgdir }}/node'
+      src:          node-{{ nodejs_version }}
+    - path:         /usr/local/bin/node
+      src:          '{{ nodejs_pkgdir }}/node/bin/node'
+    - path:         /usr/local/bin/npm
+      src:          '{{ nodejs_pkgdir }}/node/bin/npm'
+
+- name:             remove temp dir for nodejs
+  file:             path={{ nodejs_tmp.stdout }} state=absent
+  changed_when:     false
