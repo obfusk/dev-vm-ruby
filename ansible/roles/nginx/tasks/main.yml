@@ -1,0 +1,4 @@
+---
+
+- name:             install nginx packages
+  apt:              name=nginx-full state=present
