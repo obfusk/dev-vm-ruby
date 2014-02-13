@@ -28,9 +28,14 @@
           src:        /opt/src/taskmaster/taskmaster
         - path:       /usr/local/bin/venv
           src:        /opt/src/venv/venv
-      vagrant:        # TODO
+      vagrant:
         - path:       ~/.vimrc
           src:        /opt/src/dev-misc/vimrc
+    gems:
+      - bundler
+      - pry
+    npms: [] # TODO
+    # - coffee-script
 
   roles:
     - vagrant
@@ -39,7 +44,7 @@
   # - common
   # - repos
   # - links
-  # - ruby
+    - ruby
   # - python
   # - sqlite
   # - memcached
@@ -51,10 +56,10 @@
   # - libav
   # - X
   # - vnc
-  # - pg
-  # - pg-pgdg
-  # - mongo
-  # - mongo-10gen
-  # - nodejs
-  # - nodejs-tar
+  # - pg          TODO
+  # - pg-pgdg     TODO
+  # - mongo       TODO
+  # - mongo-10gen TODO
+  # - nodejs      TODO
+  # - nodejs-tar  TODO
     - { role: vagrant-user, sudo_user: vagrant }

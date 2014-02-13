@@ -27,6 +27,7 @@
     - .gem/ruby/1.9.1/bin
     - .node/bin
 
+
 - name:             get byobu backend
   shell:            cat /home/vagrant/.byobu/backend || true
   register:         byobu_backend_vagrant
@@ -46,9 +47,38 @@
   when:             '"register" not in byobu_ctrla_vagrant.stdout'
 
 
-# [ -z "$user_name"  ] || git config --global user.name "$user_name"
-# [ -z "$user_email" ] || git config --global user.email "$user_email"
-# git config --global color.ui auto
+- name:             get git user.name
+  shell:            git config --global user.name || true
+  register:         git_user_vagrant
+  changed_when:     false
 
-# [ ! -x "\$( which gem )" ] || gem install bundler pry
-# [ ! -x "\$( which npm )" ] || npm -g install coffee-script
+- name:             set git user.name
+  command:          git config --global user.name {{ git.user }}
+  when:             git_user_vagrant.stdout != git.user
+
+- name:             get git user.email
+  shell:            git config --global user.email || true
+  register:         git_email_vagrant
+  changed_when:     false
+
+- name:             set git user.email
+  command:          git config --global user.email {{ git.email }}
+  when:             git_email_vagrant.stdout != git.email
+
+- name:             get git color.ui
+  shell:            git config --global color.ui || true
+  register:         git_color_vagrant
+  changed_when:     false
+
+- name:             set git color.ui
+  command:          git config --global color.ui auto
+  when:             git_color_vagrant.stdout != 'auto'
+
+
+- name:             gems for vagrant
+  gem:              name={{ item }} state=latest
+  with_items:       gems
+
+- name:             npms for vagrant
+  npm:              name={{ item }} state=latest global=yes
+  with_items:       npms
