@@ -1,0 +1,12 @@
+---
+
+- name:             create directories in /opt
+  file:             path={{ item }} state=directory
+  with_items:
+    - /opt/src
+    - /opt/pkg
+
+- name:             github repos
+  git:              repo=https://github.com/{{ item }}.git
+                    dest=/opt/src/{{ item|basename }}
+  with_items:       gh_repos

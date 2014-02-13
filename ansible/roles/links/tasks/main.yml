@@ -1,0 +1,5 @@
+---
+
+- name:             symlinks
+  file:             path={{ item.path }} src={{ item.src }} state=link
+  with_items:       links.root

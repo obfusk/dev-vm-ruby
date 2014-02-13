@@ -1,0 +1,10 @@
+---
+
+- name:             get passwd lock info for vagrant
+  command:          passwd -S vagrant
+  register:         passwd_vagrant
+  changed_when:     false
+
+- name:             lock password for vagrant
+  command:          passwd -l vagrant
+  when:             passwd_vagrant.stdout.split()[1] != 'L'

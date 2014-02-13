@@ -5,6 +5,10 @@
 
 - name:             set default ruby
   command:          update-alternatives --set ruby /usr/bin/ruby1.9.1
+  register:         alt_ruby
+  changed_when:     '"using" in alt_ruby.stdout'
 
 - name:             set default gem
   command:          update-alternatives --set gem /usr/bin/gem1.9.1
+  register:         alt_gem
+  changed_when:     '"using" in alt_gem.stdout'

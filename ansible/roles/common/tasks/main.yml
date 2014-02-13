@@ -46,3 +46,8 @@
 
 - name:             set default editor
   command:          update-alternatives --set editor {{ alt.editor }}
+  register:         alt_editor
+  changed_when:     '"using" in alt_editor.stdout'
+
+- name:             link ack to ack-grep
+  file:             path=/usr/local/bin/ack src=/usr/bin/ack-grep state=link

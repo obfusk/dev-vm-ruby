@@ -3,6 +3,5 @@
 set -xe
 export LC_ALL=C
 
-rsync -av --delete ansible/ shared/ansible/
-vagrant ssh -c \
-  'cd ~/shared/ansible && sudo ansible-playbook -v -i hosts site.yml'
+rsync -e 'ssh -F .ssh-config' -av --delete ansible/ default:ansible/
+vagrant ssh -c 'cd ~/ansible && sudo ansible-playbook -v -i hosts site.yml'
