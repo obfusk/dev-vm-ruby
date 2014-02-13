@@ -9,10 +9,16 @@
 
 - name:             sources.list.d for 10gen
   copy:             dest=/etc/apt/sources.list.d/10gen.list src=10gen.list
-  notify:           update apt cache
+                    owner=root group=root mode=644
+  register:         sources_10gen
 
 - name:             preferences.d for 10gen
   copy:             dest=/etc/apt/preferences.d/10gen.pref src=10gen.pref
+                    owner=root group=root mode=644
+
+- name:             update apt cache
+  apt:              update_cache=yes
+  when:             sources_10gen|changed
 
 - name:             install mongodb packages from 10gen
   apt:              name=mongodb-10gen state=present

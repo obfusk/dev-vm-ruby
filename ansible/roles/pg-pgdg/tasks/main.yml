@@ -9,10 +9,16 @@
 
 - name:             sources.list.d for pgdg
   copy:             dest=/etc/apt/sources.list.d/pgdg.list src=pgdg.list
-  notify:           update apt cache
+                    owner=root group=root mode=644
+  register:         sources_pgdg
 
 - name:             preferences.d for pgdg
   copy:             dest=/etc/apt/preferences.d/pgdg.pref src=pgdg.pref
+                    owner=root group=root mode=644
+
+- name:             update apt cache
+  apt:              update_cache=yes
+  when:             sources_pgdg|changed
 
 - name:             install postgresql packages from pgdg
   apt:              name={{ item }} state=present

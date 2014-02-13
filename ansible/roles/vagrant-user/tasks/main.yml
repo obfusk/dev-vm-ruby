@@ -13,12 +13,10 @@
                     mode=644 backup=yes
 
 - name:             ~vagrant/.gemrc
-  copy:             dest=/home/vagrant/.gemrc src=gemrc
-                    mode=644 backup=yes
+  copy:             dest=/home/vagrant/.gemrc src=gemrc mode=644
 
 - name:             ~vagrant/.npmrc
-  copy:             dest=/home/vagrant/.npmrc src=npmrc
-                    mode=644 backup=yes
+  copy:             dest=/home/vagrant/.npmrc src=npmrc mode=644
 
 - name:             create directories in ~vagrant
   file:             path=/home/vagrant/{{ item }} state=directory mode=755

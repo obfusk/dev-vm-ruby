@@ -3,6 +3,7 @@
 - name:             configure VM
   hosts:            all
   sudo:             true
+  sudo_user:        root
 
   vars:
     alt:
@@ -57,9 +58,9 @@
   # - X
   # - vnc
   # - pg
-  # - pg-pgdg
+    - pg-pgdg
   # - mongo
-  # - mongo-10gen
-  # - nodejs      TODO
+    - mongo-10gen
+  # - nodejs
   # - nodejs-tar  TODO
-    - { role: vagrant-user, sudo_user: vagrant }
+  # - { role: vagrant-user, sudo_user: vagrant }
