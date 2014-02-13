@@ -1,0 +1,4 @@
+---
+
+- name:             install phantomjs packages
+  apt:              name=phantomjs state=present install_recommends=no
