@@ -21,3 +21,9 @@
     - libreadline-gplv2-dev
     - libxml2-dev
     - libxslt1-dev
+
+- name:             remove common packages
+  apt:              name={{ item }} state=absent
+  with_items:
+    - rpcbind
+    - cloud-init
