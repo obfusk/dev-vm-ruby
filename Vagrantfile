@@ -19,6 +19,9 @@ require 'tmpdir'
 
 cfg[:shares].each { |k,v| FileUtils.mkdir_p k }
 
+system 'rsync -a --delete ansible/ shared/ansible/' \
+  or raise 'OOPS' if File.exists? 'ansible'
+
 parent  = ENV['PARENT_BOX'] == 'yes'
 box     = parent ? 'precise64-cloud' : cfg[:box]
 
@@ -31,9 +34,6 @@ f = -> config {
   config.vm.provision :shell, :path => 'provision.sh' \
     if File.exists? 'provision.sh'
 }
-
-system 'cat provision-cfg.sh provision-base.sh > provision.sh' \
-  if Dir.glob('provision-{base,cfg}.sh').length == 2
 
 Dir.mktmpdir do |tdir|
 
