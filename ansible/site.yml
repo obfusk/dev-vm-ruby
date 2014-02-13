@@ -5,7 +5,8 @@
   user:             root
 
   vars:
-    editor:         /usr/bin/vim.basic
+    alt:
+      editor:       /usr/bin/vim.basic
     git:
       user:         vagrant
       email:        vagrant@localhost
@@ -15,8 +16,8 @@
       command:      passwd -l vagrant
 
   roles:
-  # - update
-  # - common
+    - update
+    - common
   # - ruby
   # - python
   # - sqlite

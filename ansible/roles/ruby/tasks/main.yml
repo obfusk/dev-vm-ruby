@@ -2,3 +2,9 @@
 
 - name:             install ruby packages
   apt:              name=ruby1.9.1-full state=present install_recommends=no
+
+- name:             set default ruby
+  command:          update-alternatives --set ruby /usr/bin/ruby1.9.1
+
+- name:             set default gem
+  command:          update-alternatives --set gem /usr/bin/gem1.9.1

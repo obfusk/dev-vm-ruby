@@ -43,3 +43,6 @@
   with_items:
     - rpcbind
     - cloud-init
+
+- name:             set default editor
+  command:          update-alternatives --set editor {{ alt.editor }}
