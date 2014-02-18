@@ -2,7 +2,7 @@
 
     File        : README.md
     Maintainer  : Felix C. Stegerman <flx@obfusk.net>
-    Date        : 2014-02-07
+    Date        : 2014-02-18
 
     Copyright   : Copyright (C) 2014  Felix C. Stegerman
 
@@ -66,6 +66,11 @@
   10. profit!
 
 []: }}}1
+
+## TODO
+
+  * refactor ansible config
+  * test test test
 
 ## License
 

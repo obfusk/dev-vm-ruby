@@ -35,32 +35,34 @@
     gems:
       - bundler
       - pry
-    npms:
-      - coffee-script
+      - localconfig
+    npms: []
+    # - coffee-script
+    # - uglify-js
 
   roles:
     - vagrant
-  # - update
-  # - etckeeper
+    - update
+    - etckeeper
     - common
     - repos
     - links
     - ruby
-  # - python
-  # - sqlite
-  # - memcached
-  # - redis
-  # - imagemagick
-  # - nginx
-  # - gitolite
-  # - phantomjs
-  # - libav
-  # - X
-  # - vnc
-  # - pg
-    - pg-pgdg
-  # - mongo
-    - mongo-10gen
-  # - nodejs
-    - nodejs-tar
+    - python
+    - sqlite
+    - memcached
+    - redis
+    - imagemagick
+    - nginx
+    - gitolite
+    - phantomjs
+    - libav
+    - X
+    - vnc
+    - pg
+  # - pg-pgdg
+    - mongo
+  # - mongo-10gen
+    - nodejs
+  # - nodejs-tar
     - { role: vagrant-user, sudo_user: vagrant }
