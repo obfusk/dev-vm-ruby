@@ -11,7 +11,7 @@ box=dev-vm-ruby
 export PARENT_BOX=yes
 
 box_url="https://cloud-images.ubuntu.com/vagrant/$RELEASE/current/"
-box_url+="$RELEASE-server-cloudimg-amd64-vagrant-disk1.box'
+box_url+="$RELEASE-server-cloudimg-amd64-vagrant-disk1.box"
 
 if ! test -e id_rsa; then
   if test "$USE_MY_KEY" = yes; then
