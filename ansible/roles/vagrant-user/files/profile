@@ -18,14 +18,20 @@ fi
 
 # MODIFIED {
 
+if [ -e /usr/bin/ruby2.0 ]; then
+  _ruby_v=2.0.0
+else
+  _ruby_v=1.9.1
+fi
+
 for _path in \
-  "$HOME/.node/bin" "$HOME/.gem/ruby/1.9.1/bin" "$HOME/bin";
+  "$HOME/.node/bin" "$HOME/.gem/ruby/$_ruby_v/bin" "$HOME/bin";
 do
   [ -d "$_path" ] && PATH="$_path:$PATH"
 done
 unset _path
 
-export LC_ALL=C LANG=C GEM_HOME="$HOME/.gem/ruby/1.9.1"
+export LC_ALL=C LANG=C GEM_HOME="$HOME/.gem/ruby/$_ruby_v"
 export NODE_PATH="$HOME/.node/lib/node_modules"
 
 [ -z "$DISPLAY" ] && export DISPLAY=:1

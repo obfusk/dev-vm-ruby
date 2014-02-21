@@ -1,4 +1,5 @@
 cfg = {
+  release:  ENV['RELEASE'] || 'precise',
   box:      'dev-vm-ruby',
   host:     'dev-vm-ruby',
   ip:       '192.168.88.10',
@@ -20,7 +21,7 @@ require 'tmpdir'
 cfg[:shares].each { |k,v| FileUtils.mkdir_p k }
 
 parent  = ENV['PARENT_BOX'] == 'yes'
-box     = parent ? 'precise64-cloud' : cfg[:box]
+box     = parent ? "#{cfg[:release]}64-cloud" : cfg[:box]
 
 f = -> config {
   config.vm.box = box

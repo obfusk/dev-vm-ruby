@@ -22,8 +22,8 @@
   file:             path=/home/vagrant/{{ item }} state=directory mode=755
   with_items:
     - bin
-    - .gem/ruby/1.9.1/bin
     - .node/bin
+    - .gem/ruby/{{ ruby_version }}/bin
 
 
 - name:             get byobu backend

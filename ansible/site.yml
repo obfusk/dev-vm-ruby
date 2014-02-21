@@ -6,6 +6,7 @@
   sudo_user:        root
 
   vars:
+    release:        precise
     alt:
       editor:       /usr/bin/vim.basic
     git:
@@ -19,19 +20,20 @@
       - obfusk/venv
       - kchmck/vim-coffee-script
       - plasticboy/vim-markdown
+    ruby_version:   1.9.1
     links:
       root:
-        - path:       /usr/local/bin/filter
-          src:        /opt/src/map.sh/bin/filter
-        - path:       /usr/local/bin/map
-          src:        /opt/src/map.sh/bin/map
-        - path:       /usr/local/bin/taskmaster
-          src:        /opt/src/taskmaster/taskmaster
-        - path:       /usr/local/bin/venv
-          src:        /opt/src/venv/venv
+        - path:     /usr/local/bin/filter
+          src:      /opt/src/map.sh/bin/filter
+        - path:     /usr/local/bin/map
+          src:      /opt/src/map.sh/bin/map
+        - path:     /usr/local/bin/taskmaster
+          src:      /opt/src/taskmaster/taskmaster
+        - path:     /usr/local/bin/venv
+          src:      /opt/src/venv/venv
       vagrant:
-        - path:       ~/.vimrc
-          src:        /opt/src/dev-misc/vimrc
+        - path:     ~/.vimrc
+          src:      /opt/src/dev-misc/vimrc
     gems:
       - bundler
       - pry
@@ -47,7 +49,8 @@
     - common
     - repos
     - links
-    - ruby
+    - ruby-1.9
+  # - ruby-2.0  # trusty
     - python
     - sqlite
     - memcached
@@ -56,10 +59,12 @@
     - nginx
     - gitolite
     - phantomjs
-    - libav
+    - libav-precise
+  # - libav-trusty
     - X
     - vnc
-    - pg
+    - pg-9.1    # precise
+  # - pg-9.3    # trusty
   # - pg-pgdg
     - mongo
   # - mongo-10gen

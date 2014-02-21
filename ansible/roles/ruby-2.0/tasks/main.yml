@@ -1,0 +1,17 @@
+---
+
+- name:             install ruby packages
+  apt:              name={{ item }} state=present install_recommends=no
+  with_items:
+    - ruby2.0
+    - ruby2.0-dev
+
+- name:             set default ruby
+  command:          update-alternatives --set ruby /usr/bin/ruby2.0
+  register:         alt_ruby
+  changed_when:     '"using" in alt_ruby.stdout'
+
+- name:             set default gem
+  command:          update-alternatives --set gem /usr/bin/gem2.0
+  register:         alt_gem
+  changed_when:     '"using" in alt_gem.stdout'
