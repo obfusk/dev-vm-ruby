@@ -11,5 +11,5 @@ if ! dpkg -s ansible >/dev/null 2>&1; then
 ____END
 
   aptitude update
-  aptitude -y -t precise-backports install ansible
+  aptitude -y -t $RELEASE-backports install ansible
 fi
