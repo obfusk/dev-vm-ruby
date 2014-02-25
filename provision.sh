@@ -10,8 +10,11 @@ if ! dpkg -s ansible >/dev/null 2>&1; then
       deb-src http://archive.ubuntu.com/ubuntu $RELEASE-backports \
         main restricted universe
 ______END
+    t="-t $RELEASE-backports"
+  else
+    t=
   fi
 
   aptitude update
-  aptitude -y -t $RELEASE-backports install ansible
+  aptitude -y $t install ansible
 fi
