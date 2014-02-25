@@ -24,11 +24,9 @@ boxes = [
 require 'fileutils'
 require 'tmpdir'
 
-merge = -> h { base_cfg.merge h }
-
 configure_boxes = -> config, vsn {
   boxes.each do |box|
-    cfg   = merge[box]
+    cfg   = base_cfg.merge box
     name  = ENV['CURRENT_BOX'] = cfg[:name]
 
     config.vm.define name do |config|
