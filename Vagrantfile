@@ -1,10 +1,11 @@
 base_cfg = {                                                    # {{{1
-  name:     'default',
-  release:  ENV['RELEASE'] || 'precise',
-  box:      'dev-vm-ruby',
-  host:     'dev-vm-ruby',
-  ip:       '192.168.88.10',
-  priv_key: './id_rsa',
+  name:       'default',
+  release:    ENV['RELEASE'] || 'precise',
+  box:        'dev-vm-ruby',
+  host:       'dev-vm-ruby',
+  ip:         '192.168.88.10',
+  provision:  'provision.sh',
+  priv_key:   './id_rsa',
   shares:   {
     'shared'                => '/home/vagrant/shared',
   # "#{Dir.home}/projects"  => '/home/vagrant/projects',
@@ -12,9 +13,9 @@ base_cfg = {                                                    # {{{1
   forwards: {
   # 8080 => 80,
   },
-  custom: ['modifyvm', :id, '--memory', 512],
-  fwd_x:  false,
-  gui:    false,
+  custom:     ['modifyvm', :id, '--memory', 512],
+  fwd_x:      false,
+  gui:        false,
 }                                                               # }}}1
 
 boxes = [
@@ -41,8 +42,8 @@ configure_boxes = -> config, vsn {
           config.ssh.private_key_path = cfg[:priv_key]
         end
         config.ssh.forward_x11 = cfg[:fwd_x]
-        config.vm.provision :shell, :path => 'provision.sh' \
-          if File.exists? 'provision.sh'
+        config.vm.provision :shell, :path => cfg[:provision] \
+          if cfg[:provision]
       }                                                         # }}}1
 
       Dir.mktmpdir do |tdir|
@@ -50,7 +51,7 @@ configure_boxes = -> config, vsn {
           f[config]
           config.vm.host_name = cfg[:host]
           config.vm.boot_mode = :gui if cfg[:gui]
-          config.vm.customize cfg[:custom]
+          config.vm.customize cfg[:custom] if cfg[:custom]
           config.vm.network :hostonly, cfg[:ip] \
             unless parent || !cfg[:ip]
           config.vm.share_folder 'v-root', '/.vagrant-shared',
@@ -66,7 +67,7 @@ configure_boxes = -> config, vsn {
           config.vm.hostname = cfg[:host]
           config.vm.provider :virtualbox do |vb|
             vb.gui = cfg[:gui]
-            vb.customize cfg[:custom]
+            vb.customize cfg[:custom] if cfg[:custom]
           end
           config.vm.network :private_network, ip: cfg[:ip] \
             unless parent || !cfg[:ip]
