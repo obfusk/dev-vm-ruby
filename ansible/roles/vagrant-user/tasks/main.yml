@@ -1,5 +1,12 @@
 ---
 
+- name:             create directories in ~vagrant
+  file:             path=/home/vagrant/{{ item }} state=directory mode=755
+  with_items:
+    - bin
+    - .node/bin
+    - .gem/ruby/{{ ruby_version }}/bin
+
 - name:             symlinks for vagrant
   file:             path={{ item.path }} src={{ item.src }} state=link
   with_items:       links.vagrant
@@ -17,13 +24,6 @@
 
 - name:             ~vagrant/.npmrc
   copy:             dest=/home/vagrant/.npmrc src=npmrc mode=644
-
-- name:             create directories in ~vagrant
-  file:             path=/home/vagrant/{{ item }} state=directory mode=755
-  with_items:
-    - bin
-    - .node/bin
-    - .gem/ruby/{{ ruby_version }}/bin
 
 
 - name:             get byobu backend

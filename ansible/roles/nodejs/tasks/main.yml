@@ -1,4 +1,4 @@
 ---
 
 - name:             install nodejs packages
-  apt:              name=nodejs state=present
+  apt:              name=npm state=present

@@ -1,5 +1,13 @@
 ---
 
+# to use trusty instead of precise:
+#
+#   * s/precise/trusty/ in Vagrantfile, build.sh, provision.sh
+#   * release: s/precise/trusty/
+#   * ruby_version: s/1.9.1/2.0.0/
+#   * enable the 2.0 symlinks for vagrant
+#   * swap the comments in front of the roles marked precise/trusty
+
 - name:             configure VM
   hosts:            all
   sudo:             true
@@ -7,6 +15,7 @@
 
   vars:
     release:        precise
+  # release:        trusty
     alt:
       editor:       /usr/bin/vim.basic
     git:
@@ -20,7 +29,8 @@
       - obfusk/venv
       - kchmck/vim-coffee-script
       - plasticboy/vim-markdown
-    ruby_version:   1.9.1
+    ruby_version:   1.9.1   # precise
+  # ruby_version:   2.0.0   # trusty
     links:
       root:
         - path:     /usr/local/bin/filter
@@ -34,11 +44,25 @@
       vagrant:
         - path:     ~/.vimrc
           src:      /opt/src/dev-misc/vimrc
+      # - path:     ~/bin/erb
+      #   src:      /usr/bin/erb2.0
+      # - path:     ~/bin/gem
+      #   src:      /usr/bin/gem2.0
+      # - path:     ~/bin/irb
+      #   src:      /usr/bin/irb2.0
+      # - path:     ~/bin/rdoc
+      #   src:      /usr/bin/rdoc2.0
+      # - path:     ~/bin/ri
+      #   src:      /usr/bin/ri2.0
+      # - path:     ~/bin/ruby
+      #   src:      /usr/bin/ruby2.0
+      # - path:     ~/bin/testrb
+      #   src:      /usr/bin/testrb2.0
     gems:
       - bundler
       - pry
       - localconfig
-    npms: []
+    npms: []      # these won't work w/ default npm in precise
     # - coffee-script
     # - uglify-js
 
@@ -49,8 +73,8 @@
     - common
     - repos
     - links
-    - ruby-1.9
-  # - ruby-2.0  # trusty
+    - ruby-1.9    # precise
+  # - ruby-2.0    # trusty
     - python
     - sqlite
     - memcached
@@ -63,11 +87,11 @@
   # - libav-trusty
     - X
     - vnc
-    - pg-9.1    # precise
-  # - pg-9.3    # trusty
-  # - pg-pgdg
+    - pg-9.1      # precise
+  # - pg-9.3      # trusty
+  # - pg-pgdg     # for precise w/ newer pg
     - mongo
-  # - mongo-10gen
+  # - mongo-10gen # for precise w/ newer mongo
     - nodejs
-  # - nodejs-tar
+  # - nodejs-tar  # for precise w/ newer nodejs
     - { role: vagrant-user, sudo_user: vagrant }
