@@ -5,6 +5,7 @@
 #   * s/precise/trusty/ in Vagrantfile, build.sh, provision.sh
 #   * release: s/precise/trusty/
 #   * ruby_version: s/1.9.1/2.0.0/
+#   * gem_exec: s/$/2.0/
 #   * enable the 2.0 symlinks for vagrant
 #   * swap the comments in front of the roles marked precise/trusty
 
@@ -31,6 +32,8 @@
       - plasticboy/vim-markdown
     ruby_version:   1.9.1   # precise
   # ruby_version:   2.0.0   # trusty
+    gem_exec:       /usr/bin/gem
+  # gem_exec:       /usr/bin/gem2.0
     links:
       root:
         - path:     /usr/local/bin/filter
@@ -92,6 +95,7 @@
   # - pg-pgdg     # for precise w/ newer pg
     - mongo
   # - mongo-10gen # for precise w/ newer mongo
-    - nodejs
+    - nodejs-precise
+  # - nodejs-trusty
   # - nodejs-tar  # for precise w/ newer nodejs
     - { role: vagrant-user, sudo_user: vagrant }
