@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type"
+      content="text/html; charset=utf-8" />
+    <title>Vagrant + Ansible</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+name: default
+class: middle, center
+layout: true
+
+---
+
+# Vagrant + Ansible
+
+Felix C. Stegerman `<flx@obfusk.net>`
+
+.small[2014-03-11]
+
+---
+
+layout: false
+
+# Vagrant
+
+> "Create and configure lightweight, reproducible, and portable
+development environments."
+
+* Wraps VirtualBox (and other providers).
+* Same environment (for developers & designers).
+* Same configuration & workflow (for operations).
+* **Insecure defaults :-( !!!**
+
+```bash
+$ vagrant box add precise64-cloud ...
+```
+
+```bash
+$ cd some/dir
+$ vagrant init precise64-cloud
+$ vim Vagrantfile
+```
+
+```bash
+$ vagrant up
+$ vagrant ssh
+$ vagrant halt
+```
+
+```bash
+$ vagrant destroy
+```
+
+---
+
+## Vagrantfile
+
+```ruby
+Vagrant.configure('2') do |config|
+  config.vm.box       = 'precise64-cloud'
+  config.vm.hostname  = 'dev-vm'
+
+  config.vm.provider :virtualbox do |vb|
+    # vb.gui = true
+    vb.customize ['modifyvm', :id, '--memory', 512]
+  end
+
+  config.vm.network :private_network, ip: '192.168.99.10'
+  # config.vm.network :forwarded_port, guest: 80, host: 8080
+
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+  config.vm.synced_folder 'shared', '/home/vagrant/shared',
+    create: true
+
+  # config.ssh.private_key_path = './id_rsa'
+  # config.ssh.forward_x11      = true
+
+  # config.vm.provision :shell, :path => 'provision.sh'
+end
+```
+
+---
+
+## Security
+
+  **NB**: vagrant **is very insecure** by default.  Older versions run
+  ssh **listening on all IP addresses** -- newer versions still listen
+  on localhost; publicly **known ssh keys and passwords** are used;
+  the directory containing the Vagrantfile is **shared read-write**
+  with the VM by default, allowing the **guest to compromise the
+  host**.
+
+  See the `dev-vm-ruby` `README` for ways to **mitigate** these risks.
+
+  Make sure you don't run any **services** on your computer or network
+  that you don't want the VM to be able to access.
+
+---
+
+# Ansible
+
+> "Ansible is an IT automation tool.  It can configure systems, deploy
+software, and orchestrate more advanced IT tasks such as continuous
+deployments or zero downtime rolling updates."
+
+* Agentless: manages nodes over SSH; only requires python.
+* Inventory: Hosts and Groups.
+* Ad-Hoc Commands.
+* Playbooks (YAML): Tasks & Roles.
+* Modules (JSON + stdio).
+
+---
+
+## Examples
+
+```
+[webservers]
+foo.example.com
+bar.example.com
+```
+
+```yaml
+- hosts: webservers
+  vars:
+    http_port:        80
+    server_name:      example.com
+  tasks:
+  - name:             install nginx packages
+    apt:              name=nginx-full state=present
+  - name:             write the nginx config file
+    template:         dest=/etc/nginx/nginx.conf src=nginx.conf.j2
+    notify:           restart nginx
+  - name:             ensure nginx is running
+    service:          name=nginx state=started
+  handlers:
+  - name:             restart nginx
+    service:          name=nginx state=restarted
+```
+
+---
+
+template: default
+layout: true
+
+---
+
+# Demo
+
+---
+
+name: links
+layout: false
+
+# Links
+
+* http://obfusk.github.io/dev-vm-ruby
+* https://github.com/obfusk/dev-vm-ruby/tree/ansible
+
+<!-- -->
+
+* https://en.wikipedia.org/wiki/Vagrant_%28software%29
+* https://en.wikipedia.org/wiki/Ansible_%28software%29
+
+<!-- -->
+
+* http://vagrantup.com
+* http://www.ansible.com
+
+    </textarea>
+    <script src="remark-0.5.9.min.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
+<!-- vim: set tw=70 sw=2 sts=2 et ft=mkd : -->
