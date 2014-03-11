@@ -27,12 +27,12 @@ layout: false
 
 # Vagrant
 
-> "Create and configure lightweight, reproducible, and portable
-development environments."
+> "Create and configure **lightweight**, **reproducible**, and
+portable **development environments**."
 
-* Wraps VirtualBox (and other providers).
-* Same environment (for developers & designers).
-* Same configuration & workflow (for operations).
+* Wraps **VirtualBox** (and other providers).
+* Same **environment** (for developers & designers).
+* Same **configuration** & **workflow** (for operations).
 * **Insecure defaults :-( !!!**
 
 ```bash
@@ -103,15 +103,19 @@ end
 
 # Ansible
 
-> "Ansible is an IT automation tool.  It can configure systems, deploy
-software, and orchestrate more advanced IT tasks such as continuous
-deployments or zero downtime rolling updates."
+> "Ansible is an IT automation tool.  It can **configure** systems,
+**deploy** software, and **orchestrate** more advanced IT tasks such
+as continuous deployments or zero downtime rolling updates."
 
-* Agentless: manages nodes over SSH; only requires python.
-* Inventory: Hosts and Groups.
+* Agentless: manages nodes over **SSH**; only requires python.
+* Configuration as data (**YAML**).
+* **Inventory**: **Hosts** and **Groups**.
 * Ad-Hoc Commands.
-* Playbooks (YAML): Tasks & Roles.
-* Modules (JSON + stdio).
+* **Playbooks** & **Plays**: **Variables**, **Tasks**, **Roles** &
+  **Handlers**.
+* **Modules** (JSON + stdio): **"batteries included"**.
+  - apt, command, shell, copy, template, git, ...
+* Multi-Tier Orchestration.
 
 ---
 
