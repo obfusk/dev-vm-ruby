@@ -1,0 +1,7 @@
+sbt_version:        0.13.6
+sbt_sha256:         5564024afbcb107e9a476c7e3be77bb50347580ce6c8a889cacfc84135835d55
+sbt_pkgdir:         /opt/pkg
+sbt_bindir:         /usr/local/bin
+sbt_mem:            128
+sbt_users:
+  - vagrant

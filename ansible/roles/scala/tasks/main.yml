@@ -1,0 +1,64 @@
+---
+
+- name:             install scala packages
+  apt:              name={{ item }} state=present install_recommends=no
+  with_items:
+    - openjdk-7-jre-headless
+    - openjdk-7-jdk
+
+- name:             sbt already installed?
+  command:          test -e {{ sbt_pkgdir }}/sbt-{{ sbt_version }}
+  register:         sbt_exists
+  failed_when:      false
+  changed_when:     false
+
+- name:             get sbt tar
+  get_url:          url="https://dl.bintray.com/sbt/native-packages/sbt/{{ sbt_version }}/sbt-{{ sbt_version }}.tgz"
+                    dest="/root/cache/sbt-{{ sbt_version }}.tar" sha256sum={{ sbt_sha256 }}
+
+- name:             temp dir for sbt
+  command:          mktemp -d
+  register:         sbt_tmp
+  changed_when:     false
+
+- name:             second level temp dir for sbt
+  file:             path="{{ sbt_tmp.stdout }}/2" state=directory mode=755
+  changed_when:     false
+
+- name:             untar sbt
+  command:          tar --no-same-owner --no-same-permissions
+                    -C {{ sbt_tmp.stdout }}/2 -x
+                    -f /root/cache/sbt-{{ sbt_version }}.tar
+  when:             sbt_exists.rc != 0
+
+- name:             check untarred sbt
+  command:         'find -not -type l ( -perm /7022 -o -not -user 0 -o -not -group 0 )
+                    chdir="{{ sbt_tmp.stdout }}/2"'
+  register:         sbt_check
+  failed_when:      sbt_check.stdout != ''
+  when:             sbt_exists.rc != 0
+
+- name:             move untarred sbt
+  command:         'mv -T {{ sbt_tmp.stdout }}/2/sbt {{ sbt_pkgdir }}/sbt-{{ sbt_version }}
+                    creates="{{ sbt_pkgdir }}/sbt-{{ sbt_version }}"'
+
+- name:             sbt symlinks
+  file:             path={{ item.path }} src={{ item.src }} state=link
+  with_items:
+    - path:         '{{ sbt_pkgdir }}/sbt'
+      src:          sbt-{{ sbt_version }}
+    - path:         '{{ sbt_bindir }}/sbt.real'
+      src:          '{{ sbt_pkgdir }}/sbt/bin/sbt'
+
+- name:             remove temp dir for sbt
+  file:             path={{ sbt_tmp.stdout }} state=absent
+  changed_when:     false
+
+- template:         src=sbt.j2 dest={{ sbt_bindir }}/sbt mode=755
+
+- name:             run sbt (self-install)
+  command:          sbt help
+  register:         sbt_self_install
+  changed_when:     '"Getting" in sbt_self_install.stdout'
+  sudo_user:        "{{ item }}"
+  with_items:       sbt_users

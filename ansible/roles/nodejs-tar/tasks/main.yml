@@ -42,9 +42,9 @@
   with_items:
     - path:         '{{ nodejs_pkgdir }}/node'
       src:          node-{{ nodejs_version }}
-    - path:         /usr/local/bin/node
+    - path:         "{{ nodejs_bindir }}/node"
       src:          '{{ nodejs_pkgdir }}/node/bin/node'
-    - path:         /usr/local/bin/npm
+    - path:         "{{ nodejs_bindir }}/npm"
       src:          '{{ nodejs_pkgdir }}/node/bin/npm'
 
 - name:             remove temp dir for nodejs
