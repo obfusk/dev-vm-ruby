@@ -81,6 +81,7 @@
     - links
     - ruby-2.0    # trusty
   # - ruby-1.9    # precise
+    - clojure
     - python
     - sqlite
     - memcached

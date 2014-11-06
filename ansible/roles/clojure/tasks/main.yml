@@ -1,0 +1,19 @@
+---
+
+- name:             install clojure packages
+  apt:              name={{ item }} state=present install_recommends=no
+  with_items:
+    - openjdk-7-jre-headless
+    - openjdk-7-jdk
+    - maven2
+
+- name:             get leiningen
+  get_url:          url="https://raw.githubusercontent.com/technomancy/leiningen/{{ lein_version }}/bin/lein"
+                    dest="{{ lein_bindir }}/lein-{{ lein_version }}" sha256sum={{ lein_sha256 }}
+                    mode=0755
+
+- name:             leiningen symlink
+  file:             path={{ item.path }} src={{ item.src }} state=link
+  with_items:
+    - path:         '{{ lein_bindir }}/lein'
+      src:          '{{ lein_bindir }}/lein-{{ lein_version }}'
