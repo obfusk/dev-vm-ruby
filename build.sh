@@ -3,7 +3,7 @@
 set -xe
 export LC_ALL=C
 
-: ${RELEASE:=precise}
+: ${RELEASE:=trusty}
 
 parent=${RELEASE}64-cloud
 box=dev-vm-ruby

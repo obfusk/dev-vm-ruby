@@ -1,6 +1,6 @@
 base_cfg = {                                                    # {{{1
   name:       'default',
-  release:    ENV['RELEASE'] || 'precise',
+  release:    ENV['RELEASE'] || 'trusty',
   box:        'dev-vm-ruby',
   host:       'dev-vm-ruby',
   ip:         '192.168.88.10',

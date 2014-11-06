@@ -1,6 +1,6 @@
 set -xe
 
-: ${RELEASE:=precise}
+: ${RELEASE:=trusty}
 
 if ! dpkg -s ansible >/dev/null 2>&1; then
   if [ "$RELEASE" = precise ]; then

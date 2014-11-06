@@ -1,13 +1,14 @@
 ---
 
-# to use trusty instead of precise:
+# to use precise instead of trusty:
 #
-#   * s/precise/trusty/ in Vagrantfile, build.sh, provision.sh
-#   * release: s/precise/trusty/
-#   * ruby_version: s/1.9.1/2.0.0/
-#   * gem_exec: s/$/2.0/
-#   * enable the 2.0 symlinks for vagrant
-#   * swap the comments in front of the roles marked precise/trusty
+#   * s/trusty/precise/ in Vagrantfile, build.sh,
+#     provision.sh (only $RELEASE!)
+#   * release: s/trusty/precise/
+#   * ruby_version: s/2.0.0/1.9.1/
+#   * gem_exec: s/2.0$//
+#   * disable the 2.0 symlinks for vagrant
+#   * swap the comments in front of the roles marked trusty/precise
 
 - name:             configure VM
   hosts:            all
@@ -15,8 +16,8 @@
   sudo_user:        root
 
   vars:
-    release:        precise
-  # release:        trusty
+    release:        trusty
+  # release:        precise
     alt:
       editor:       /usr/bin/vim.basic
     git:
@@ -30,10 +31,10 @@
       - obfusk/venv
       - kchmck/vim-coffee-script
       - plasticboy/vim-markdown
-    ruby_version:   1.9.1   # precise
-  # ruby_version:   2.0.0   # trusty
-    gem_exec:       /usr/bin/gem
-  # gem_exec:       /usr/bin/gem2.0
+    ruby_version:   2.0.0   # trusty
+  # ruby_version:   1.9.1   # precise
+    gem_exec:       /usr/bin/gem2.0
+  # gem_exec:       /usr/bin/gem
     links:
       root:
         - path:     /usr/local/bin/filter
@@ -47,20 +48,22 @@
       vagrant:
         - path:     ~/.vimrc
           src:      /opt/src/dev-misc/vimrc
-      # - path:     ~/bin/erb
-      #   src:      /usr/bin/erb2.0
-      # - path:     ~/bin/gem
-      #   src:      /usr/bin/gem2.0
-      # - path:     ~/bin/irb
-      #   src:      /usr/bin/irb2.0
-      # - path:     ~/bin/rdoc
-      #   src:      /usr/bin/rdoc2.0
-      # - path:     ~/bin/ri
-      #   src:      /usr/bin/ri2.0
-      # - path:     ~/bin/ruby
-      #   src:      /usr/bin/ruby2.0
-      # - path:     ~/bin/testrb
-      #   src:      /usr/bin/testrb2.0
+        # trusty {
+        - path:     ~/bin/erb
+          src:      /usr/bin/erb2.0
+        - path:     ~/bin/gem
+          src:      /usr/bin/gem2.0
+        - path:     ~/bin/irb
+          src:      /usr/bin/irb2.0
+        - path:     ~/bin/rdoc
+          src:      /usr/bin/rdoc2.0
+        - path:     ~/bin/ri
+          src:      /usr/bin/ri2.0
+        - path:     ~/bin/ruby
+          src:      /usr/bin/ruby2.0
+        - path:     ~/bin/testrb
+          src:      /usr/bin/testrb2.0
+        # } trusty
     gems:
       - bundler
       - pry
@@ -76,8 +79,8 @@
     - common
     - repos
     - links
-    - ruby-1.9    # precise
-  # - ruby-2.0    # trusty
+    - ruby-2.0    # trusty
+  # - ruby-1.9    # precise
     - python
     - sqlite
     - memcached
@@ -86,16 +89,16 @@
     - nginx
     - gitolite
     - phantomjs
-    - libav-precise
-  # - libav-trusty
+    - libav-trusty
+  # - libav-precise
     - X
     - vnc
-    - pg-9.1      # precise
-  # - pg-9.3      # trusty
+    - pg-9.3      # trusty
+  # - pg-9.1      # precise
   # - pg-pgdg     # for precise w/ newer pg
     - mongo
   # - mongo-10gen # for precise w/ newer mongo
-    - nodejs-precise
-  # - nodejs-trusty
+    - nodejs-trusty
+  # - nodejs-precise
   # - nodejs-tar  # for precise w/ newer nodejs
     - { role: vagrant-user, sudo_user: vagrant }
