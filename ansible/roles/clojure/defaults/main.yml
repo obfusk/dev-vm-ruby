@@ -1,3 +1,5 @@
 lein_version:       2.5.0
 lein_sha256:        14ffac176e3c3e1ed6f47219875c7704165f9fe739cf71324a2c4e54deaee7df
 lein_bindir:        /usr/local/bin
+lein_users:
+  - vagrant

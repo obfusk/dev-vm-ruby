@@ -17,3 +17,10 @@
   with_items:
     - path:         '{{ lein_bindir }}/lein'
       src:          '{{ lein_bindir }}/lein-{{ lein_version }}'
+
+- name:             run leiningen (self-install)
+  command:          lein version
+  register:         lein_self_install
+  changed_when:     '"Downloading" in lein_self_install.stdout'
+  sudo_user:        "{{ item }}"
+  with_items:       lein_users
