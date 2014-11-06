@@ -2,8 +2,7 @@
 
 # to use precise instead of trusty:
 #
-#   * s/trusty/precise/ in Vagrantfile, build.sh,
-#     provision.sh (only $RELEASE!)
+#   * s/trusty/precise/ in Vagrantfile, build.sh, provision.sh
 #   * release: s/trusty/precise/
 #   * ruby_version: s/2.0.0/1.9.1/
 #   * gem_exec: s/2.0$//
