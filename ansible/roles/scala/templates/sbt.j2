@@ -1,2 +1,3 @@
 #!/bin/bash
-exec sbt.real -mem {{ sbt_mem }} "$@"
+trap 'pkill -TERM -P $$; wait' EXIT
+source sbt.real -mem {{ sbt_mem }} "$@"
