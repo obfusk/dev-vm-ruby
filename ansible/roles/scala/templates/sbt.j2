@@ -1,3 +1,5 @@
 #!/bin/bash
-trap 'pkill -TERM -P $$; wait' EXIT
-source sbt.real -mem {{ sbt_mem }} "$@"
+code='trap '\''pkill -TERM -P $$; wait'\'' EXIT; "$0" "$@"'
+real="$( which sbt.real )"
+args=( -mem {{ sbt_mem }} "$@" )
+exec bash -c "$code" "$real" "${args[@]}"
