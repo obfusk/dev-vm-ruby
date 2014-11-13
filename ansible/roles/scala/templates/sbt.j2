@@ -1,5 +1,5 @@
 #!/bin/bash
-code='trap '\''pkill -TERM -P $$; wait'\'' EXIT; "$0" "$@"'
+code='trap '\''pkill -TERM -P $$; wait'\'' EXIT; source "$0" "$@"'
 real="$( which sbt.real )"
 args=( -mem {{ sbt_mem }} "$@" )
 exec bash -c "$code" "$real" "${args[@]}"
