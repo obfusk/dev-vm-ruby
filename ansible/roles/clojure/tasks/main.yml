@@ -5,7 +5,7 @@
   with_items:
     - openjdk-7-jre-headless
     - openjdk-7-jdk
-    - maven2
+    - maven
 
 - name:             get leiningen
   get_url:          url="https://raw.githubusercontent.com/technomancy/leiningen/{{ lein_version }}/bin/lein"
