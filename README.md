@@ -2,7 +2,7 @@
 
     File        : README.md
     Maintainer  : Felix C. Stegerman <flx@obfusk.net>
-    Date        : 2014-02-18
+    Date        : 2014-12-19
 
     Copyright   : Copyright (C) 2014  Felix C. Stegerman
 
@@ -69,6 +69,8 @@
 
 ## TODO
 
+  * keep lein (clojure), sbt (scala), nodejs (nodejs-tar) versions
+    up-to-date
   * refactor ansible config
   * test test test
 
